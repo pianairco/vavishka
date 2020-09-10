@@ -1,0 +1,62 @@
+server:
+  port: 8081
+  servlet:
+    encoding:
+      force-response: true
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 2048KB
+      max-request-size: 2048KB
+  datasource:
+    url: jdbc:h2:file:./data/store
+    #    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+    h2:
+      console:
+        enabled: true
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+  resources:
+    cache: false
+    cache.period: 0
+  template:
+    cache: false
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+app:
+  mode:
+    debug: true
+static-resource:
+  paths:
+    '[/**]':
+      - classpath:/
+      - classpath:/public/
+      - classpath:/static/
+      - file:///c:/upload-dir/
+    '[/bulma]':
+      - file:///c:/upload-dir/
+store-menu:
+  groups:
+    -
+      id: 1
+      title: home
+      link: home
+    -
+      id: 2
+      title: store
+      link: store
+    -
+      id: 3
+      title: gallery
+      link: gallery

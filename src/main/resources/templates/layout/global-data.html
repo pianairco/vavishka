@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script th:fragment="globalDataFragment">
+        var globalData = {
+            window: { width: 0, height: 0, isMobile: false, isTablet: false, isDesktop: false, isWideScreen: false, isFullHd: false}
+        };
+
+        function windowResize(width, height) {
+            globalData.window.width = $(this).width();
+            if (globalData.window.width <= 768) {
+                globalData.window.isMobile = true;
+                globalData.window.isTablet = false;
+                globalData.window.isDesktop = false;
+                globalData.window.isWideScreen = false;
+                globalData.window.isFullHd = false;
+            } else if (globalData.window.width >= 769 && globalData.window.width < 1024) {
+                globalData.window.isMobile = false;
+                globalData.window.isTablet = true;
+                globalData.window.isDesktop = false;
+                globalData.window.isWideScreen = false;
+                globalData.window.isFullHd = false;
+            } else if (globalData.window.width >= 1024 && globalData.window.width < 1216) {
+                globalData.window.isMobile = false;
+                globalData.window.isTablet = false;
+                globalData.window.isDesktop = true;
+                globalData.window.isWideScreen = false;
+                globalData.window.isFullHd = false;
+            } else if (globalData.window.width >= 1216 && globalData.window.width < 1408) {
+                globalData.window.isMobile = false;
+                globalData.window.isTablet = false;
+                globalData.window.isDesktop = false;
+                globalData.window.isWideScreen = true;
+                globalData.window.isFullHd = false;
+            } else if (globalData.window.width >= 1408) {
+                globalData.window.isMobile = false;
+                globalData.window.isTablet = false;
+                globalData.window.isDesktop = false;
+                globalData.window.isWideScreen = false;
+                globalData.window.isFullHd = true;
+            }
+
+            globalData.window.height = $(this).height();
+        }
+
+        $(document).ready(function() {
+            console.log('ready');
+            console.log($(this).width());
+            console.log($(this).height());
+            windowResize($(this).width(), $(this).height());
+        });
+
+        $(window).resize(function(a) {
+            console.log($(this).width());
+            console.log($(this).height());
+            windowResize($(this).width(), $(this).height());
+        });
+    </script>
+</head>
+
+<body >
+</body>
+</html>
