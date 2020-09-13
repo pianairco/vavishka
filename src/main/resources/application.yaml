@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8088
   servlet:
     encoding:
       force-response: true
@@ -15,7 +15,7 @@ spring:
       max-file-size: 2048KB
       max-request-size: 2048KB
   datasource:
-    url: jdbc:h2:file:./data/store
+    url: jdbc:h2:file:./data/vavishka
     #    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa

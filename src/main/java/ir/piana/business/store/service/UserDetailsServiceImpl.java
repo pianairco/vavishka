@@ -19,10 +19,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        GoogleUserEntity googleUserModel = new GoogleUserEntity();
-        GoogleUserEntity googleUserModel = googleUserRepository.findByUsername(username);
+        GoogleUserEntity googleUserModel = googleUserRepository.findByEmail(username);
         if (googleUserModel == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(googleUserModel.getUsername(), googleUserModel.getPassword(), Collections.emptyList());
+        return new User(googleUserModel.getEmail(), googleUserModel.getPassword(), Collections.emptyList());
     }
 }

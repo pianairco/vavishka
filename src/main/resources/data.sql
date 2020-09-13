@@ -1,6 +1,9 @@
 DROP TABLE IF EXISTS users;
 
-create sequence  IF NOT EXISTS vavishka_seq;
+create sequence IF NOT EXISTS vavishka_seq;
+
+select vavishka_seq.nextval from dual;
+select vavishka_seq.nextval from dual;
 
 CREATE TABLE IF NOT EXISTS users (
   id bigint default vavishka_seq.nextval primary key,

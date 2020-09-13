@@ -1,8 +1,10 @@
 package ir.piana.business.store.security;
 
+import ir.piana.business.store.data.repository.GoogleUserRepository;
 import ir.piana.business.store.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +26,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+//    @Autowired
+//    private GoogleUserRepository googleUserRepository;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
@@ -38,21 +43,27 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/images/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .successForwardUrl("/hello")
-                .defaultSuccessUrl("/home")
-                .successHandler(getSuccessHandler())
-                .failureUrl("/error")
-                .permitAll()
-                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/login")
+//                .successForwardUrl("/hello")
+//                .defaultSuccessUrl("/home")
+//                .successHandler(getSuccessHandler())
+//                .failureUrl("/error")
+//                .permitAll()
+//                .and()
                 .headers().frameOptions().disable()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(), bCryptPasswordEncoder))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthenticationFilter(
+//                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository))
+//                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
 //                 this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+    }
+
+    @Bean
+    public AuthenticationManager getAuthenticationManager() throws Exception {
+        return authenticationManager();
     }
 
     @Bean

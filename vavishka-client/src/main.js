@@ -1,8 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+// npm install vuex --save
+import Vuex from 'vuex'
+import { mapState } from 'vuex'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import GAuth from 'vue-google-oauth2'
@@ -16,12 +20,38 @@ Vue.use(GAuth, gauthOption)
 
 Vue.use(Buefy)
 
+Vue.prototype.$axios = axios
+
 Vue.config.productionTip = false
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    appInfo: null
+  },
+  mutations: {
+    setAppInfo (state, appInfo) {
+      state.appInfo = appInfo
+    }
+  }
+})
+
+Vue.mixin({
+  data: function() {
+    return {
+      get remoteServer() {
+        return "http://localhost";
+      }
+    }
+  }
+});
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

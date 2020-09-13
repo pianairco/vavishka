@@ -60,7 +60,7 @@ public class StoreApplication {
 
 
 
-//		SpringApplication.run(StoreApplication.class, args);
+		SpringApplication.run(StoreApplication.class, args);
 	}
 
 }
