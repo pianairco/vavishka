@@ -1,6 +1,6 @@
 <template lang="html">
 
-  <b-navbar>
+  <b-navbar :fixed-top="true">
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
@@ -10,20 +10,18 @@
       </b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-item href="#">
-        Home
-      </b-navbar-item>
-      <b-navbar-item href="#">
-        Documentation
-      </b-navbar-item>
-      <b-navbar-dropdown label="Info">
-        <b-navbar-item href="#">
-          About
-        </b-navbar-item>
-        <b-navbar-item href="#">
-          Contact
-        </b-navbar-item>
-      </b-navbar-dropdown>
+      <router-link to="/home" class="navbar-item">صفحه اصلی</router-link>
+      <router-link to="/sample-search" class="navbar-item">آموزش ها</router-link>
+      <router-link to="/shop" class="navbar-item">فروشگاه</router-link>
+      <router-link to="/gallery" class="navbar-item">گالری تصاویر</router-link>
+<!--      <b-navbar-dropdown label="Info">-->
+<!--        <b-navbar-item href="#">-->
+<!--          About-->
+<!--        </b-navbar-item>-->
+<!--        <b-navbar-item href="#">-->
+<!--          Contact-->
+<!--        </b-navbar-item>-->
+<!--      </b-navbar-dropdown>-->
     </template>
 
     <template slot="end">
@@ -35,30 +33,31 @@
                     icon-left="google">
             Sign in with Google
           </b-button>
-<!--          <div class="field" v-if="appInfo && appInfo.isLoggedIn">-->
-<!--            <b-tag-->
-<!--              style="direction: rtl"-->
-<!--              close-icon-type='is-dark'-->
-<!--              attached-->
-<!--              closable-->
-<!--              aria-close-label="خروج"-->
-<!--              close-icon-pack='fas'-->
-<!--              close-icon='sign-out-alt'-->
-<!--              @click="handleClickSignOut"-->
-<!--              rounded>{{appInfo.username}}</b-tag>-->
-<!--          </div>-->
-          <b-button size="" class="is-danger" icon-pack="fas"
+
+          <button v-if="appInfo && appInfo.isLoggedIn" class="button is-danger is-outlined" v-on:click="handleClickSignOut">
+            <span style="padding-left: 4px;">
+              <figure class="image is-24x24">
+                <img class="is-rounded" v-bind:src="appInfo.pictureUrl">
+              </figure>
+            </span>
+            <span>{{appInfo.username}}</span>
+            <span class="icon is-small">
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+          </button>
+<!--          <b-button size="" class="is-danger" icon-pack="fas"
                     v-on:click="handleClickSignOut"
                     v-if="appInfo && appInfo.isLoggedIn"
                     icon-left="sign-out-alt">
             {{appInfo.username}}
+            <img v-if="appInfo && appInfo.isLoggedIn" v-bind:src="appInfo.pictureUrl">
           </b-button>
           <b-image
             style="width: 25px; margin-bottom: 8px; padding-right:3px;"
             v-if="appInfo && appInfo.isLoggedIn"
             v-bind:src="appInfo.pictureUrl"
             :rounded="rounded"
-          ></b-image>
+          ></b-image>-->
         </div>
       </b-navbar-item>
       <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="false">
@@ -210,5 +209,18 @@
 .button .icon:first-child:not(:last-child) {
   margin-left: 0.25em;
   margin-right: calc(-0.5em - 1px);
+}
+.router-link-active {
+  color: #ff7749;
+}
+
+.router-link-active:focus {
+  background-color: inherit !important;
+  color: #ff7749 !important;
+}
+
+.router-link-active:hover {
+  background-color: #fafafa !important;
+  color: #ff7749 !important;
 }
 </style>
