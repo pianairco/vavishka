@@ -28,11 +28,31 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    appInfo: null
+    appInfo: null,
+    forms: {waiter: {wait: 0}}
   },
   mutations: {
     setAppInfo (state, appInfo) {
       state.appInfo = appInfo
+    },
+    setToForm: function(formName, propertyName, property) {
+      this.state.forms[formName][propertyName] = property;
+      this.state.forms[formName] = JSON.parse(JSON.stringify(this.state.forms[formName]));
+    },
+    getFromForm: function(formName, propertyName) {
+      return this.state.forms[formName][propertyName];
+    },
+    setToFormProperty: function(formName, propertyName, property, value) {
+      this.state.forms[formName][propertyName][property] = value;
+      this.state.forms[formName] =  JSON.parse(JSON.stringify(this.state.forms[formName]));
+    },
+    removeFromFormProperty: function(formName, propertyName, property) {
+      delete this.state.forms[formName][propertyName][property];
+      this.state.forms[formName] =  JSON.parse(JSON.stringify(this.state.forms[formName]));
+    },
+    replaceToFormProperty: function(formName, propertyName, property, field, value) {
+      this.state.forms[formName][propertyName][property][field] = value;
+      this.state.forms[formName] =  JSON.parse(JSON.stringify(this.state.forms[formName]));
     }
   }
 })

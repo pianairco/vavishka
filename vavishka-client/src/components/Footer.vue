@@ -118,6 +118,7 @@
 
 <style scoped lang="css">
   .footer {
+    margin-top: 16px;
     padding: 2em 1.5em
   }
 

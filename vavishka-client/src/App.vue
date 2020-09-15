@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" style="margin-top: 56px">
     <topbar></topbar>
-    <app-header></app-header>
+    <app-header v-if="isHome"></app-header>
     <router-view/>
     <app-footer></app-footer>
   </div>
@@ -24,6 +24,11 @@
         this.$store.commit('setAppInfo', appInfo)
         return appInfo
       })
+    },
+    computed: {
+      isHome() {
+        return this.$route.name === 'Home'
+      }
     },
     components: {
       'topbar': Topbar,

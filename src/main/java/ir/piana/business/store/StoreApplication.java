@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
 import ir.piana.business.store.cfg.StaticResourceProperties;
+import ir.piana.business.store.rest.ImageLoaderProperties;
+import ir.piana.business.store.service.sql.SqlProperties;
+import ir.piana.business.store.service.storage.StorageProperties;
 import ir.piana.business.store.service.store.StoreMenuProperties;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +27,9 @@ import javax.servlet.ServletContext;
 @EnableTransactionManagement
 @EnableCaching
 @EnableConfigurationProperties({
+		StorageProperties.class,
+		SqlProperties.class,
+		ImageLoaderProperties.class,
 		StaticResourceProperties.class,
 		StoreMenuProperties.class
 })

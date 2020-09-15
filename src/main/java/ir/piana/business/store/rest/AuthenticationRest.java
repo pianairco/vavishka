@@ -109,13 +109,13 @@ public class AuthenticationRest {
         AppInfo appInfo = new AppInfo();
         if(authentication.getDetails() instanceof GoogleUserEntity) {
             appInfo.isLoggedIn = true;
-            appInfo.isAdmin = false;
+            appInfo.isAdmin = true;
             appInfo.username = ((GoogleUserEntity) authentication.getDetails()).getName();
             appInfo.email = ((GoogleUserEntity) authentication.getDetails()).getEmail();
             appInfo.pictureUrl = ((GoogleUserEntity) authentication.getDetails()).getPictureUrl();
         } else {
             appInfo.isLoggedIn = false;
-            appInfo.isAdmin = false;
+            appInfo.isAdmin = true;
             appInfo.username = authentication.getName();
         }
         return ResponseEntity.ok(appInfo);
