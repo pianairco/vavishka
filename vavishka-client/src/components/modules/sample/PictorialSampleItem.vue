@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="card">
     <div class="card-image">
-      <picture-box :image="image"></picture-box>
+      <picture-box :image="'cdn/' + image"></picture-box>
       <div class="columns is-mobile is-vcentered is-multiline is-overlay sample-item-overlay" style="margin: 0px;">
         <div class="column is-full " style="height: 20%;">
           <div class="columns" style="padding: 0px; margin: 0px;">
@@ -26,9 +26,11 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a class="card-footer-item button is-white" v-bind:href="link">
+<!--      <router-link to="/link" class="card-footer-item button is-white">-->
+      <a class="card-footer-item button is-white" v-bind:href="'#' + link">
         {{defaultCaption}}
       </a>
+<!--      </router-link>-->
     </footer>
   </div>
 </template>

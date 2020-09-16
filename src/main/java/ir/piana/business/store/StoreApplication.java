@@ -9,6 +9,8 @@ import ir.piana.business.store.rest.ImageLoaderProperties;
 import ir.piana.business.store.service.sql.SqlProperties;
 import ir.piana.business.store.service.storage.StorageProperties;
 import ir.piana.business.store.service.store.StoreMenuProperties;
+import ir.piana.business.store.util.LowerCaseKeyDeserializer;
+import ir.piana.business.store.util.LowerCaseKeySerializer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,13 +40,24 @@ public class StoreApplication {
 	@Bean("objectMapper")
 	public ObjectMapper getObjectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper();
-//		SimpleModule module = new SimpleModule("LowerCaseKeyDeserializer",
-//				new Version(1,0,0,null));
-//		module.addKeyDeserializer(Object.class, new LowerCaseKeyDeserializer());
-//		module.addKeySerializer(Object.class, new LowerCaseKeySerializer());
-//		objectMapper.registerModule(module);
+		SimpleModule module = new SimpleModule("LowerCaseKeyDeserializer",
+				new Version(1,0,0,null));
+		module.addKeyDeserializer(Object.class, new LowerCaseKeyDeserializer());
+		module.addKeySerializer(Object.class, new LowerCaseKeySerializer());
+		objectMapper.registerModule(module);
 		return objectMapper;
 	}
+
+//	@Bean("objectMapper")
+//	public ObjectMapper getObjectMapper() {
+//		ObjectMapper objectMapper = new ObjectMapper();
+////		SimpleModule module = new SimpleModule("LowerCaseKeyDeserializer",
+////				new Version(1,0,0,null));
+////		module.addKeyDeserializer(Object.class, new LowerCaseKeyDeserializer());
+////		module.addKeySerializer(Object.class, new LowerCaseKeySerializer());
+////		objectMapper.registerModule(module);
+//		return objectMapper;
+//	}
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {

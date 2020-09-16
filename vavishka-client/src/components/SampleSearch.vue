@@ -5,10 +5,10 @@
         <pictorial-sample-item-creator v-on:add-item="addItem" :form-name="'uploader1'" :property-name="'image'">
         </pictorial-sample-item-creator>
       </div>
-
-      <div v-if="!appInfo || !appInfo.isAdmin" v-for="d in samples" class="column is-full-mobile is-one-quarter-desktop">
+      <!--v-if="!appInfo || !appInfo.isAdmin"-->
+      <div  v-for="d in samples" class="column is-full-mobile is-one-quarter-desktop">
         <pictorial-sample-item v-if="d['id'] != editedId"
-                               :link="'/bulma/sample?id=' + d['id']"
+                               :link="'/sample?id=' + d['id']"
                                v-on:edit-item="editItemClick"
                                v-on:delete-item="deleteItemClick"
                                :id="d['id']"
@@ -45,18 +45,25 @@
         ],
         samples: [],
         // sharedState: store.state,
-        editedId: 0
+        editedId: 0,
+        message: ''
       }
     },
     methods: {
       addItem(form) {
-        console.log(JSON.stringify(form));
-        this.$axios.post('/api/sample/add', form, { headers: { 'file-group': 'sample' } })
-          .then((response) => {
-            console.log(response.data);
-            this.samples.push(response.data);
-          })
-          .catch((err) => { this.message = err; });
+        try {
+          console.log(JSON.stringify(form));
+          this.$axios.post('/api/sample/add', form, {headers: {'file-group': 'sample'}})
+            .then((response) => {
+              console.log(response.data);
+              this.samples.concat(response.data);
+              console.log(this.samples);
+            }).catch((err) => {
+              this.message = err;
+            });
+        } catch (e) {
+          console.log(e)
+        }
       },
       editItem(form) {
         console.log(JSON.stringify(form));
@@ -92,16 +99,24 @@
       pictorialSampleItemCreator
     },
     created () {
-      this.$axios.get(this.remoteServer + '/api/samples', { headers: { } })
-        .then((response) => {
-          console.log(response.data);
-          this.samples.push(response.data);
-          // this.sessions.push(response.data);
-          // this.$store.commit('setAppInfo', response.data);
-        }).catch((err) => {
-        self.isLoading = false;
+      try {
+        this.$axios.get(this.remoteServer + '/api/samples', {headers: {}})
+          .then((response) => {
+          console.log(this.samples);
+        console.log(response.data);
+        // this.samples = response.data;
+        response.data.forEach(a => this.samples.push(a));
+        // this.samples.push(response.data);
+        console.log(this.samples);
+        // this.sessions.push(response.data);
+        // this.$store.commit('setAppInfo', response.data);
+      }).catch((err) => {
+          self.isLoading = false;
         this.message = err
       });
+      } catch (e) {
+        console.error(e);
+      }
     },
     computed: {
       appInfo () {

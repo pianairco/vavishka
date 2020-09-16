@@ -18,6 +18,14 @@ module.exports = {
         pathRewrite: {
           '^/api': '/api'
         }
+      },
+      '/cdn': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/cdn': '/'
+        }
       }
     },
 
