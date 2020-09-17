@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="card-content">
-      <div class="media">
+      <div class="media media-title">
         <div class="media-content">
           <p class="title is-4">{{title}}</p>
         </div>
@@ -76,8 +76,8 @@
         },
         methods: {
             editClick: function () {
-              console.log("edit");
-                this.$emit("edit-item", this.id);
+              console.log("edit", this.id);
+              this.$emit("edit-item", this.id);
             },
             deleteClick: function () {
                 console.log("delete");
@@ -121,5 +121,10 @@
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  }
+
+  .media-title {
+    padding-top: 18px;
+    padding-bottom: 10px;
   }
 </style>

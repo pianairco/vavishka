@@ -31,13 +31,30 @@ const store = new Vuex.Store({
     appInfo: null,
     forms: {waiter: {wait: 0}}
   },
+  getters: {
+    getWaiterVal: function (state) {
+      return state.forms.waiter.wait
+    }
+  },
   mutations: {
-    setAppInfo (state, appInfo) {
+    addWaiterWait: function (state) {
+      state.forms.waiter.wait += 1;
+    },
+    subWaiterWait: function (state) {
+      state.forms.waiter.wait -= 1;
+      if(state.forms.waiter.wait < 0)
+        state.forms.waiter.wait = 0;
+    },
+    setAppInfo: function (state, appInfo) {
       state.appInfo = appInfo
     },
-    setToForm: function(formName, propertyName, property) {
-      this.state.forms[formName][propertyName] = property;
-      this.state.forms[formName] = JSON.parse(JSON.stringify(this.state.forms[formName]));
+    setToForm: function(state, form) {
+      console.log(JSON.stringify(form));
+      console.log(JSON.stringify(state));
+      state.forms[form.formName] = form.model;
+      // state.forms[form.formName][form.propertyName] = form.property;
+      console.log(JSON.stringify(state));
+      // state.forms[formName] = JSON.parse(JSON.stringify(this.state.forms[formName]));
     },
     getFromForm: function(formName, propertyName) {
       return this.state.forms[formName][propertyName];

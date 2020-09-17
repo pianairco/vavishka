@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="margin-top: 56px">
+  <div id="app" >
     <topbar></topbar>
     <app-header v-if="isHome"></app-header>
     <router-view/>

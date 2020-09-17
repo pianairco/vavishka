@@ -8,7 +8,7 @@
       <!--v-if="!appInfo || !appInfo.isAdmin"-->
       <div  v-for="d in samples" class="column is-full-mobile is-one-quarter-desktop">
         <pictorial-sample-item v-if="d['id'] != editedId"
-                               :link="'/sample?id=' + d['id']"
+                               :link="'/sample/' + d['id']"
                                v-on:edit-item="editItemClick"
                                v-on:delete-item="deleteItemClick"
                                :id="d['id']"
@@ -28,8 +28,8 @@
 </template>
 
 <script lang="js">
-  import pictorialSampleItem from './modules/sample/PictorialSampleItem';
-  import pictorialSampleItemCreator from './modules/sample/PictorialSampleItemCreator';
+  import PictorialSampleItem from './modules/sample/PictorialSampleItem';
+  import PictorialSampleItemCreator from './modules/sample/PictorialSampleItemCreator';
 
   export default  {
     name: 'SampleSearch',
@@ -56,7 +56,7 @@
           this.$axios.post('/api/sample/add', form, {headers: {'file-group': 'sample'}})
             .then((response) => {
               console.log(response.data);
-              this.samples.concat(response.data);
+              this.samples.push(response.data);
               console.log(this.samples);
             }).catch((err) => {
               this.message = err;
@@ -83,7 +83,7 @@
       },
       deleteItemClick(id) {
         console.log(id);
-        this.$axios.post('/sample/delete', { "id": id }, { headers: { 'file-group': 'sample' } })
+        this.$axios.post('/api/sample/delete', { "id": id }, { headers: { 'file-group': 'sample' } })
           .then((response) => {
             console.log(response.data);
             let index = this.samples.findIndex(item => item.id === id);
@@ -95,8 +95,8 @@
       }
     },
     components: {
-      pictorialSampleItem,
-      pictorialSampleItemCreator
+      PictorialSampleItem,
+      PictorialSampleItemCreator
     },
     created () {
       try {
@@ -130,5 +130,8 @@
 </script>
 
 <style scoped lang="css">
-
+#bulma-sample-search-page {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 </style>

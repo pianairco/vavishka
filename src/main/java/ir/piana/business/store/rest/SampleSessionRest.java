@@ -28,6 +28,15 @@ public class SampleSessionRest {
     @Autowired
     private InsertSampleSessionImageBusiness insertSampleSessionImageBusiness;
 
+//    @GetMapping(path = "sample/sessions/id", consumes = MediaType.APPLICATION_JSON_VALUE,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    @Transactional
+//    public ResponseEntity getSessions(@PathParam("id") long sampleId) {
+//        List<Map<String, Object>> mapList = sqlService.listByName("sample-session",
+//                new Object[]{sampleId});
+//        return ResponseEntity.ok(mapList);
+//    }
+
     @PostMapping(path = "sample/session/add", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
@@ -136,10 +145,10 @@ public class SampleSessionRest {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping(path = "sample/sessions/id", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(path = "sample/sessions/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public ResponseEntity sessionsById(@PathParam("id") long id) {
+    public ResponseEntity sessionsById(@PathVariable("id") Long id) {
         List<Map<String, Object>> list = sqlService.list("sample-session", new Object[]{id});
         return ResponseEntity.ok(list);
     }

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/components/Home'
 import Shop from '@/components/Shop'
 import SampleSearch from '@/components/SampleSearch'
+import SampleSession from '@/components/SampleSession'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,12 @@ export default new VueRouter({
       path: '/sample-search',
       name: 'SampleSearch',
       component: SampleSearch
+    },
+    {
+      path: '/sample/:id',
+      name: 'SampleSession',
+      component: SampleSession,
+      props: true
     }
   ]
 })
