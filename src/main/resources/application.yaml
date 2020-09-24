@@ -89,7 +89,7 @@ sql:
       update: update samples set title = ?, description = ?, image_src = ? where id = ?
       select: select id, title, description, image_src from samples
       delete: delete from samples where id = ?
-    sample-session:
+    session:
       insert: insert into samples_session (id, samples_id, title, description, icon_src, orders) values(?, ?, ?, ?, ?, ?)
       update: update samples_session set title = ?, description = ?, image_src = ? where id = ?
       select: select id, samples_id, title, description, detail, icon_src, orders from samples_session where samples_id = ? order by orders asc

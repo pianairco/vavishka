@@ -28,9 +28,12 @@
       </nav>-->
     </div>
     <div class="media-right">
-      <button class="icon is-medium" style="cursor: pointer;">
-        <i class="fa fa-2x fa-chevron-circle-left" v-on:click="sessionSelected"></i>
-      </button>
+      <router-link :to="'/sample/' + sampleId + '/session/' + id" class="navbar-item">
+        <i class="fa fa-2x fa-chevron-circle-left" ></i>
+      </router-link>
+<!--      <button class="icon is-medium" style="cursor: pointer;">-->
+<!--        <i class="fa fa-2x fa-chevron-circle-left" v-on:click="sessionSelected"></i>-->
+<!--      </button>-->
     </div>
   </article>
 </template>
@@ -40,6 +43,7 @@
   export default {
     name: 'PictorialMenuItem',
     props: {
+      sampleId: 0,
       activeId: 0,
       id: {
         type: Number
@@ -133,4 +137,8 @@
       padding-bottom: 0;
       border-bottom: none;
     }
+
+  .router-link-active {
+    color: #dd6b20 !important;
+  }
 </style>

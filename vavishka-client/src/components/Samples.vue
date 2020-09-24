@@ -32,7 +32,7 @@
   import PictorialSampleItemCreator from './modules/sample/PictorialSampleItemCreator';
 
   export default  {
-    name: 'SampleSearch',
+    name: 'Samples',
     data () {
       return {
         formName: 'uploader1',

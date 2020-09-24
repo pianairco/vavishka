@@ -11,7 +11,7 @@
     </template>
     <template slot="start">
       <router-link to="/home" class="navbar-item">صفحه اصلی</router-link>
-      <router-link to="/sample-search" class="navbar-item">آموزش ها</router-link>
+      <router-link to="/samples" class="navbar-item">آموزش ها</router-link>
       <router-link to="/shop" class="navbar-item">فروشگاه</router-link>
       <router-link to="/gallery" class="navbar-item">گالری تصاویر</router-link>
 <!--      <b-navbar-dropdown label="Info">-->

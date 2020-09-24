@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home'
 import Shop from '@/components/Shop'
-import SampleSearch from '@/components/SampleSearch'
-import SampleSession from '@/components/SampleSession'
+import Samples from '@/components/Samples'
+import Sample from '@/components/Sample'
+import Session from '@/components/Session'
 
 Vue.use(VueRouter)
 
@@ -21,15 +22,23 @@ export default new VueRouter({
       component: Shop
     },
     {
-      path: '/sample-search',
-      name: 'SampleSearch',
-      component: SampleSearch
+      path: '/samples',
+      name: 'Samples',
+      component: Samples
     },
     {
-      path: '/sample/:id',
-      name: 'SampleSession',
-      component: SampleSession,
-      props: true
+      path: '/sample/:sampleId',
+      name: 'Sample',
+      component: Sample,
+      props: true,
+      children: [
+        {
+          path: 'session/:id',
+          name: 'Session',
+          component: Session,
+          props: true
+        }
+      ]
     }
   ]
 })

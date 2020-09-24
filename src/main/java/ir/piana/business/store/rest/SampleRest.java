@@ -84,7 +84,7 @@ public class SampleRest {
         return ResponseEntity.ok(samples);
     }
 
-    @GetMapping(path = "sample/id",
+        @GetMapping(path = "sample/id",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity sampleById(@PathParam("id") long id) {

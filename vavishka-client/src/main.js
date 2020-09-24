@@ -28,15 +28,22 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    activeSessionImage: 0,
     appInfo: null,
     forms: {waiter: {wait: 0}}
   },
   getters: {
     getWaiterVal: function (state) {
       return state.forms.waiter.wait
+    },
+    getActiveIdVal: function (state) {
+      return state.activeSessionImage
     }
   },
   mutations: {
+    setActiveSessionImage: function (state, id) {
+      state.activeSessionImage = id;
+    },
     addWaiterWait: function (state) {
       state.forms.waiter.wait += 1;
     },

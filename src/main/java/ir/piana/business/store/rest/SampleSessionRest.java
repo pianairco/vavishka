@@ -145,11 +145,24 @@ public class SampleSessionRest {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping(path = "sample/sessions/{id}",
+    @GetMapping(path = "sample/session/images",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Transactional
+    public ResponseEntity getSessionImages2(@RequestParam("id") int id) {
+        List<Map<String, Object>> mapList = sqlService.listByName("get-session-images",
+                new Object[]{id});
+        SortedMap<String, Map<String, Object>> map  = new TreeMap<>();
+        for (Map m : mapList) {
+            map.put(m.get("ID").toString(), m);
+        }
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping(path = "sample/session/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity sessionsById(@PathVariable("id") Long id) {
-        List<Map<String, Object>> list = sqlService.list("sample-session", new Object[]{id});
+        List<Map<String, Object>> list = sqlService.list("session", new Object[]{id});
         return ResponseEntity.ok(list);
     }
 

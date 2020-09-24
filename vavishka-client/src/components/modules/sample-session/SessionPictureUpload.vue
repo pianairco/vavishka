@@ -4,7 +4,7 @@
       <div class="card-image">
         <figure class="image is-64x64" style="overflow: hidden;">
           <img v-if="!item.image" :src="unknownURL" v-on:click="selectImage" class="picture-upload-plus"/>
-          <img v-if="item.image" :src="item.image" style="opacity: 0.3" v-bind:style="{ transform: rotateVal }"/>
+          <img v-if="item.image" :src="'cdn/' + item.image" style="opacity: 0.3" v-bind:style="{ transform: rotateVal }"/>
           <input type="file" id="file" ref="file" @change="handleFileUpload($event)"
                  class="is-white fa fa-angle-right" style="display: none" />
         </figure>
@@ -38,7 +38,7 @@
         formName: String,
         propertyName: String,
         unknownURL: {
-          default: '/img/plus.png',
+          default: 'cdn/img/plus.png',
           type: String
         }
       },
