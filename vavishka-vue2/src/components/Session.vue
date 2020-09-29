@@ -6,9 +6,6 @@
         <img v-if="activeId != 0" :src="'/cdn' + images[activeId]['imageSrc']" v-bind:style="{ transform: rotateVal }">
       </figure>
       <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
-        {{id}}
-      </div>
-      <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
         <div class="column is-full" style="height: 20%;">
           <div v-if="activeId" class="columns" style="padding: 0px; margin: 0px;">
             <input type="file" id="file" ref="file" @change="handleFileUpload($event)"
@@ -41,7 +38,7 @@
       <div class="columns is-mobile is-multiline" style="margin: 0px;">
         <session-picture-upload v-on:add-session-image="addSessionImage"></session-picture-upload>
         <session-picture-select
-          v-for="image in images"
+          v-for="image in imagesObject"
           :session-image="image"
           v-bind:active-id="activeId"
           v-on:select-session-image="selectSessionImage"></session-picture-select>
@@ -79,9 +76,7 @@
           type: Number
         },
         url: String,
-        imageUploadGroup: {
-          type: String
-        },
+        imageUploadGroup: 'insert-session-image',
         order: {
           type: String
         },
@@ -111,6 +106,9 @@
       // activeIdVal: function () {
       //   return this.$store.getFromForm('session', 'activeId');
       // },
+      imagesObject: function() {
+        return this.images
+      },
       rotateVal: function () {
         return 'rotate(' + this.rotate + 'deg)';
       }
@@ -136,9 +134,43 @@
       selectSessionImage: function (id) {
         this.activeId = id;
       },
+      // addSessionImage: function (image, rotate) {
+      //   console.log("click")
+      //   this.$emit("add-session-image", image, rotate);
+      // },
       addSessionImage: function (image, rotate) {
-        console.log("click")
-        this.$emit("add-session-image", image, rotate);
+        console.log("add new session image:", image, rotate);
+        this.$store.commit('addWaiterWait');
+        let formData = new FormData();
+        formData.append('file', image);
+        let headers = {
+          'image_upload_group': 'insert-sample-session-image',
+          'image-upload-rotation': rotate,
+          'sessionId': 'i:' + this.id,
+          'sessionId2': 'i:' + this.id,
+          'Content-Type': 'multipart/form-data'
+        };
+
+        console.log(headers);
+        console.log(this.imageUploadGroup);
+
+        this.$axios.post('/api/images/image-upload', formData, {
+          headers: headers
+        }).then((res) => {
+          this.$store.commit('subWaiterWait');
+          console.log(res.data)
+          // this.images = Object.assign(this.images, { res.data.id: res.data });
+          this.images[res.data['id']] = res.data;
+          this.images = JSON.parse(JSON.stringify(this.images));
+          console.log(this.images);
+          // this.$store.setToFormProperty('session', 'images', res['data']['id'], res['data']);
+          // this.$store.setToForm('waiter', 'wait', 0)
+        }).catch((e) => {
+          this.$store.commit('subWaiterWait');
+          console.log('FAILURE!!');
+          console.log(e);
+          this.$store.setToForm('waiter', 'wait', 0)
+        });
       },
       deleteClick: function () {
         this.$emit("delete-session-image", this.activeId);
@@ -185,14 +217,14 @@
         try {
           this.$axios.get(this.remoteServer + '/api/sample/session/images?id=' + this.id, {headers: {}})
             .then((response) => {
-            console.log('++++++++++++++');
-            console.log(this.images);
-            console.log(response.data);
+            // console.log('++++++++++++++');
+            // console.log(this.images);
+            // console.log(response.data);
             this.images = {};
           for (var prop in response.data) {
             if (Object.prototype.hasOwnProperty.call(response.data, prop)) {
               // do stuff
-              console.log(prop)
+              // console.log(prop)
               if(this.activeId == 0)
                 this.activeId = prop;
               this.images[prop.toString()] = response.data[prop];
@@ -237,7 +269,6 @@
   .sample-item-overlay-button {
     color: #c69500;
     cursor: pointer;
-    padding: 2px !important;
   }
   .sample-item-overlay-button:hover {
     background-color: #c2e0f5;

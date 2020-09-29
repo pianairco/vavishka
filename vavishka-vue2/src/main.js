@@ -36,9 +36,6 @@ const store = new Vuex.Store({
     getWaiterVal: function (state) {
       return state.forms.waiter.wait
     },
-    getAppInfo: function (state) {
-      return state.appInfo
-    },
     getActiveIdVal: function (state) {
       return state.activeSessionImage
     }
@@ -56,7 +53,6 @@ const store = new Vuex.Store({
         state.forms.waiter.wait = 0;
     },
     setAppInfo: function (state, appInfo) {
-      console.log("set app info => ", appInfo)
       state.appInfo = appInfo
     },
     setToForm: function(state, form) {
@@ -95,11 +91,12 @@ Vue.mixin({
   }
 });
 
-/* eslint-disable no-new */
+Vue.config.productionTip = false
+
 new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>'
-})
+});

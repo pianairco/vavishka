@@ -69,7 +69,7 @@ storage:
       height: 512
       afterSaveImage: deleteSampleSessionImageBusiness
 
-    sample-session:
+    session:
       folder: sample-session
       width: 512
       height: 512

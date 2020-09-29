@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping("images")
+@RequestMapping("api/images")
 public class FileUploadController {
     @Autowired
     private StorageService storageService;
