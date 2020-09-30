@@ -1,4 +1,4 @@
-package ir.piana.business.store.service.storage;
+package ir.piana.dev.uploadrest;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class GroupProperties {
     private String folder;
     private int width;
     private int height;
-    private String afterSaveImage;
+    private String afterSaveImageActivity;
     private String sql;
     private List<String> sqls;
 }

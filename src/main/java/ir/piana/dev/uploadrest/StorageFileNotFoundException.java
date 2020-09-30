@@ -1,4 +1,4 @@
-package ir.piana.business.store.service.storage;
+package ir.piana.dev.uploadrest;
 
 public class StorageFileNotFoundException extends StorageException {
 

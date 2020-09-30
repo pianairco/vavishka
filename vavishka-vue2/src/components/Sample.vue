@@ -158,7 +158,9 @@
     },
     created: function () {
       try {
-        this.$axios.get(this.remoteServer + '/api/sample/session/' + this.sampleId, {headers: {}})
+        // this.$axios.get(this.remoteServer + '/api/sample/session/' + this.sampleId, {headers: {}})
+        this.$axios.post(this.remoteServer + '/api/ajax/serve', { id: this.sampleId },
+                { headers: { 'action': 'sample', activity: 'sampleById' } })
           .then((response) => {
             console.log("---------------")
             console.log(this.sessions);

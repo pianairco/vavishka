@@ -1,4 +1,4 @@
-package ir.piana.business.store.service.storage;
+package ir.piana.dev.uploadrest;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

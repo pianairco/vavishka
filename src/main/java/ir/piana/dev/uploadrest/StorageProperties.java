@@ -1,4 +1,4 @@
-package ir.piana.business.store.service.storage;
+package ir.piana.dev.uploadrest;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +16,6 @@ public class StorageProperties {
      * Folder location for storing files
      */
     private String location = "upload-dir";
+    private String bean;
     private Map<String, GroupProperties> groups;
 }

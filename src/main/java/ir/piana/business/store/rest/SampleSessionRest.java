@@ -2,8 +2,7 @@ package ir.piana.business.store.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.business.store.service.sql.SqlService;
-import ir.piana.business.store.service.storage.StorageService;
-import ir.piana.business.store.service.storage.business.InsertSampleSessionImageBusiness;
+import ir.piana.dev.uploadrest.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +24,8 @@ public class SampleSessionRest {
     @Autowired
     private ObjectMapper mapper;
 
-    @Autowired
-    private InsertSampleSessionImageBusiness insertSampleSessionImageBusiness;
+//    @Autowired
+//    private InsertSampleSessionImageBusiness insertSampleSessionImageBusiness;
 
 //    @GetMapping(path = "sample/sessions/id", consumes = MediaType.APPLICATION_JSON_VALUE,
 //            produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +59,8 @@ public class SampleSessionRest {
         map.put("orders", sampleItem.get("orders"));
         map.put("icon_src", iconSrc);
 
-        insertSampleSessionImageBusiness.insert(iconSrc, id, 1);
+        long id2 = sqlService.insertByQueryName("insert-session-image", "vavishka_seq",
+                new Object[]{iconSrc, id, 1});
 
         return ResponseEntity.ok(map);
     }

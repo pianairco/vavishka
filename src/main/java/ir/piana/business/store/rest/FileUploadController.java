@@ -2,10 +2,7 @@ package ir.piana.business.store.rest;
 
 import com.google.api.client.util.Maps;
 import ir.piana.business.store.model.ResponseModel;
-import ir.piana.business.store.service.storage.AfterSaveImage;
-import ir.piana.business.store.service.storage.GroupProperties;
-import ir.piana.business.store.service.storage.StorageFileNotFoundException;
-import ir.piana.business.store.service.storage.StorageService;
+import ir.piana.dev.uploadrest.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -30,13 +27,10 @@ import java.util.stream.Collectors;
 @RequestMapping("api/images")
 public class FileUploadController {
     @Autowired
-    private StorageService storageService;
-
-    @Autowired
     private ApplicationContext applicationContext;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private StorageService storageService;
 
     @GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException {
@@ -68,7 +62,7 @@ public class FileUploadController {
         String path = storageService.store(file, group, rotation);
 
         GroupProperties groupProperties = storageService.getGroupProperties(group);
-        String afterSaveImageName = groupProperties.getAfterSaveImage();
+        String afterSaveImageName = groupProperties.getAfterSaveImageActivity();
 
         if(afterSaveImageName != null && !afterSaveImageName.isEmpty()) {
             AfterSaveImage afterSaveImage = (AfterSaveImage) applicationContext.getBean(afterSaveImageName);

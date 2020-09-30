@@ -100,7 +100,9 @@
     },
     created () {
       try {
-        this.$axios.get(this.remoteServer + '/api/samples', {headers: {}})
+        // this.$axios.get(this.remoteServer + '/api/samples', {headers: {}})
+        this.$axios.post(this.remoteServer + '/api/ajax/serve', {},
+                { headers: { 'action': 'sample', activity: 'samples' } })
           .then((response) => {
           console.log(this.samples);
         console.log(response.data);

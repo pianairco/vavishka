@@ -1,4 +1,4 @@
-package ir.piana.business.store.service.storage;
+package ir.piana.dev.uploadrest;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

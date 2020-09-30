@@ -19,10 +19,12 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("api/ajax")
 public class AjaxController {
     @Autowired
     private ApplicationContext applicationContext;
@@ -35,7 +37,7 @@ public class AjaxController {
 
     private static ObjectMapper jsonMapper = new ObjectMapper();
 
-    @RequestMapping(value = "/ajax", method = RequestMethod.POST,
+    @RequestMapping(value = "/serve", method = RequestMethod.POST,
             consumes = "application/json; charset=utf8",
             produces = "application/json; charset=utf8")
     public @ResponseBody
@@ -49,8 +51,8 @@ public class AjaxController {
                 try {
                     Action bean = (Action) applicationContext.getBean(actionHeader);
                     if (activityHeader != null && !activityHeader.isEmpty()) {
-                        Function<HttpServletRequest, ResponseEntity> field = bean.getField(activityHeader);
-                        return field.apply(request);
+                        BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> field = bean.getField(activityHeader);
+                        return field.apply(request, body);
                     }
                 } catch (NoSuchFieldException e){
                     e.printStackTrace();
@@ -131,10 +133,10 @@ public class AjaxController {
     }
 
     public static abstract class Action {
-        public Function<HttpServletRequest, ResponseEntity> getField(String fieldName)
+        public BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> getField(String fieldName)
                 throws NoSuchFieldException, IllegalAccessException {
             Field field = this.getClass().getField(fieldName);
-            return (Function<HttpServletRequest, ResponseEntity>) field.get(this);
+            return (BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity>) field.get(this);
         }
     }
 

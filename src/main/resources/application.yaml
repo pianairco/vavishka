@@ -39,6 +39,9 @@ app:
     debug: true
   service:
     actions:
+      session:
+        addSession:
+          function: addSession
       sample:
         samples:
           function:
@@ -53,6 +56,12 @@ app:
             query: select id, title, description, image_src from samples where title=? and description like ?
             resultType: object
             params: 1=title,2=%description%
+        sampleById:
+          sql:
+            type: select
+            query: select id, title, description, image_src from samples where id = ?
+            resultType: object
+            params: 1=id
         addSample:
           sql:
             type: insert
@@ -60,6 +69,9 @@ app:
             resultType: object
             sequenceName: vavishka_seq
             params: 1=!,2=title,3=description
+      auth:
+        appInfo:
+          function: appInfo
 static-resource:
   paths:
     '[/**]':
@@ -71,6 +83,7 @@ static-resource:
       - file:///c:/upload-dir/
 storage:
   location: c:/upload-dir
+  bean: afterSaveImage
   groups:
     sample:
       folder: sample
@@ -80,18 +93,17 @@ storage:
       folder: sample-session
       width: 512
       height: 512
-      afterSaveImage: insertSampleSessionImageBusiness
+      afterSaveImageActivity: insertSampleSessionImageBusiness
     replace-sample-session-image:
       folder: sample-session
       width: 512
       height: 512
-      afterSaveImage: replaceSampleSessionImageBusiness
+      afterSaveImageActivity: replaceSampleSessionImageBusiness
     delete-sample-session-image:
       folder: sample-session
       width: 512
       height: 512
-      afterSaveImage: deleteSampleSessionImageBusiness
-
+      afterSaveImageActivity: deleteSampleSessionImageBusiness
     session:
       folder: sample-session
       width: 512

@@ -12,7 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.function.Function;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 @Service("auth")
 public class AuthAction extends AjaxController.Action {
@@ -22,7 +23,7 @@ public class AuthAction extends AjaxController.Action {
     @Autowired
     private ActionProperties actionProperties;
 
-    public Function<HttpServletRequest, ResponseEntity> appInfo = (request) -> {
+    public BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> appInfo = (request, body) -> {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppInfo appInfo = new AppInfo();
         if(authentication.getDetails() instanceof GoogleUserEntity) {

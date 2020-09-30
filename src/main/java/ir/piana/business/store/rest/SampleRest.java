@@ -2,7 +2,7 @@ package ir.piana.business.store.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.business.store.service.sql.SqlService;
-import ir.piana.business.store.service.storage.StorageService;
+import ir.piana.dev.uploadrest.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

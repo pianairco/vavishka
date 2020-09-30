@@ -1,4 +1,4 @@
-package ir.piana.business.store.service.storage;
+package ir.piana.dev.uploadrest;
 
 import org.springframework.http.ResponseEntity;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface AfterSaveImage<T> {
     ResponseEntity<T> doWork(HttpServletRequest request, String path);
 
-    default Object getValueObject(String val) {
+    static Object getValueObject(String val) {
         if(val.startsWith("i:")) {
             return Integer.parseInt(val.substring(2));
         } else if(val.startsWith("l:")) {

@@ -8,7 +8,7 @@ import ir.piana.dev.sqlrest.ActionProperties;
 import ir.piana.business.store.cfg.StaticResourceProperties;
 import ir.piana.business.store.rest.ImageLoaderProperties;
 import ir.piana.business.store.service.sql.SqlProperties;
-import ir.piana.business.store.service.storage.StorageProperties;
+import ir.piana.dev.uploadrest.StorageProperties;
 import ir.piana.business.store.service.store.StoreMenuProperties;
 import ir.piana.business.store.util.LowerCaseKeyDeserializer;
 import ir.piana.business.store.util.LowerCaseKeySerializer;
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = {"ir.piana.business.store", "ir.piana.dev.sqlrest"})
+@SpringBootApplication(scanBasePackages = {"ir.piana.business.store", "ir.piana.dev.sqlrest", "ir.piana.dev.uploadrest"})
 //@ServletComponentScan("")
 @EnableTransactionManagement
 @EnableCaching
