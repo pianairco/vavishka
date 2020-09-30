@@ -65,6 +65,7 @@ public class ActionProperties {
         private String resultType;
         private String sequenceName;
         private String params;
+        private String result;
 
         public String getType() {
             return type;
@@ -104,6 +105,14 @@ public class ActionProperties {
 
         public void setParams(String params) {
             this.params = params;
+        }
+
+        public String getResult() {
+            return result;
+        }
+
+        public void setResult(String result) {
+            this.result = result;
         }
     }
 }

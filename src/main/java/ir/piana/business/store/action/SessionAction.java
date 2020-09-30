@@ -21,7 +21,7 @@ public class SessionAction {
 
     public BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> addSession = (request, sampleItem) -> {
         String group = request.getHeader("file-group");
-        String iconSrc = storageService.store((String) sampleItem.get("icon"), group);
+        String iconSrc = storageService.store((String) sampleItem.get("icon"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
         long id = sqlService.insert(group, "vavishka_seq",

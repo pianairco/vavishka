@@ -30,7 +30,7 @@ public class SampleRest {
     public ResponseEntity addSample(
             @RequestBody Map<String, Object> sampleItem,
             @RequestHeader("file-group") String group){
-        String imageSrc = storageService.store((String) sampleItem.get("image"), group);
+        String imageSrc = storageService.store((String) sampleItem.get("image"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
         long id = sqlService.insert(group, "vavishka_seq",
@@ -51,7 +51,7 @@ public class SampleRest {
             @RequestHeader("file-group") String group){
         String imageSrc = null;
         if(sampleItem.get("image") != null) {
-            imageSrc = storageService.store((String) sampleItem.get("image"), group);
+            imageSrc = storageService.store((String) sampleItem.get("image"), group, 0);
         } else {
             imageSrc = (String)sampleItem.get("imageSrc");
         }

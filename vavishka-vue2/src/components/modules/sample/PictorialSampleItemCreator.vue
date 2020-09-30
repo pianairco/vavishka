@@ -66,7 +66,10 @@
           id: 0,
           title: '',
           description: '',
-          imageSrc: '',
+          image: {
+            base64: '',
+            rotate: 0
+          },
         },
         title: '',
         description: '',
@@ -81,14 +84,17 @@
       reset: function () {
         this.item.title = '';
         this.item.description = '';
-        this.item.image = '';
+        this.item.image = {
+          base64: '',
+          rotate: 0
+        };
         this.title = '';
         this.description = '';
         this.imageSrc = '';
         this.$refs.picUpload.reset();
       },
       pictureSelected: function (imageSrc) {
-        this.item.image = imageSrc;
+        this.item.image.base64 = imageSrc;
         console.log(imageSrc)
       },
       addClick: function () {

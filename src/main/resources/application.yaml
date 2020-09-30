@@ -65,10 +65,11 @@ app:
         addSample:
           sql:
             type: insert
-            query: insert into samples (id, title, description) values (?, ?, ?)
+            query: insert into samples (id, title, description, image_src) values(?, ?, ?, ?)
             resultType: object
             sequenceName: vavishka_seq
-            params: 1=!,2=title,3=description
+            params: 1=!,2=title,3=description,4=@1*image.base64&image.rotate&#group
+            result: id=!,title=title,description=description,imageSrc=@1
       auth:
         appInfo:
           function: appInfo

@@ -1,6 +1,7 @@
 package ir.piana.dev.sqlrest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ir.piana.dev.uploadrest.StorageService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -34,6 +36,12 @@ public class AjaxController {
 
     @Autowired
     private ActionProperties actionProperties;
+
+    @Autowired
+    private ParameterParser parameterParser;
+
+    @Autowired
+    private StorageService storageService;
 
     private static ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -65,6 +73,7 @@ public class AjaxController {
                     return internalServerError.apply(request);
                 }
             } else if(activity.getSql() != null) {
+                Map containerMap = new LinkedHashMap();
                 Object[] params = null;
                 if(activity.getSql().getParams() != null && !activity.getSql().getParams().isEmpty()) {
                     String[] split = activity.getSql().getParams().split(",");
@@ -73,19 +82,27 @@ public class AjaxController {
                         String[] split1 = s.split("=");
                         if(split1[1].equals("!")) {
                             params[Integer.valueOf(split1[0]) - 1] = AjaxReplaceType.ITS_ID;
+                        } else if(split1[1].startsWith("%") || split1[1].endsWith("%")) {
+                            String begin = split1[1].startsWith("%") ? "%" : "";
+                            String end = split1[1].endsWith("%") ? "%" : "";
+                            String key = split1[1];
+                            if (!begin.isEmpty())
+                                key = split1[1].substring(1);
+                            if (!end.isEmpty())
+                                key = key.substring(0, key.length() - 1);
+                            params[Integer.valueOf(split1[0]) - 1] = begin + body.get(key) + end;
+                        } else if(split1[1].startsWith("@")) {
+                            String[] substring = split1[1].substring(1).split("\\*");
+                            String index = substring[0];
+                            String[] split2 = substring[1].split("&");
+                            String base64 = parameterParser.parse(split2[0], request, body);
+                            Integer rotate = parameterParser.parse(split2[1], request, body);
+                            String group = parameterParser.parse(split2[2], request, body);
+                            String imageSrc = storageService.store(base64, group, rotate);
+                            params[Integer.valueOf(split1[0]) - 1] = imageSrc;
+                            containerMap.put(index, imageSrc);
                         } else {
-                            if(split1[1].startsWith("%") || split1[1].endsWith("%")) {
-                                String begin = split1[1].startsWith("%") ? "%" : "";
-                                String end = split1[1].endsWith("%") ? "%" : "";
-                                String key = split1[1];
-                                if(!begin.isEmpty())
-                                    key = split1[1].substring(1);
-                                if(!end.isEmpty())
-                                    key = key.substring(0, key.length() - 1);
-                                params[Integer.valueOf(split1[0]) - 1] = begin + body.get(key) + end;
-                            } else {
-                                params[Integer.valueOf(split1[0]) - 1] = body.get(split1[1]);
-                            }
+                            params[Integer.valueOf(split1[0]) - 1] = body.get(split1[1]);
                         }
                     }
                 } else {
@@ -96,6 +113,10 @@ public class AjaxController {
                     return notFound.apply(request);
                 else {
                     HttpHeaders responseHeaders = new HttpHeaders();
+                    if(activity.getSql() != null && activity.getSql().getType().equalsIgnoreCase("insert") && activity.getSql().getResult() != null) {
+                        String[] split = activity.getSql().getResult().split(",");
+
+                    }
                     return ResponseEntity.ok(result);
                 }
             }
@@ -142,6 +163,7 @@ public class AjaxController {
 
     public static enum AjaxReplaceType {
         NO_RESULT,
+        UPDATED,
         ITS_ID
     }
 }

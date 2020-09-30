@@ -17,7 +17,7 @@ public interface StorageService {
 
     String store(MultipartFile file, String group, String rotation, Integer width, Integer height);
 
-    String store(String file, String group);
+    String store(String file, String group, int rotation);
 
     Stream<Path> loadAll();
 

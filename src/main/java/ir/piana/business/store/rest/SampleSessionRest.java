@@ -42,7 +42,7 @@ public class SampleSessionRest {
     public ResponseEntity addSession(
             @RequestBody Map<String, Object> sampleItem,
             @RequestHeader("file-group") String group){
-        String iconSrc = storageService.store((String) sampleItem.get("icon"), group);
+        String iconSrc = storageService.store((String) sampleItem.get("icon"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
         long id = sqlService.insert(group, "vavishka_seq",
@@ -73,7 +73,7 @@ public class SampleSessionRest {
             @RequestHeader("file-group") String group){
         String imageSrc = null;
         if(sampleItem.get("image") != null) {
-            imageSrc = storageService.store((String) sampleItem.get("image"), group);
+            imageSrc = storageService.store((String) sampleItem.get("image"), group, 0);
         } else {
             imageSrc = (String)sampleItem.get("imageSrc");
         }
@@ -104,7 +104,7 @@ public class SampleSessionRest {
     public ResponseEntity addSessionImage(
             @RequestBody Map<String, Object> sampleItem,
             @RequestHeader("file-group") String group){
-        String iconSrc = storageService.store((String) sampleItem.get("icon"), group);
+        String iconSrc = storageService.store((String) sampleItem.get("icon"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
         long id = sqlService.insert(group, "vavishka_seq",

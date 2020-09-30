@@ -30,11 +30,13 @@ public class SqlQueryService {
                 return (T) selectObject(sql.getQuery(), params, Boolean.class);
             }
         } else if (sql.getType().equalsIgnoreCase("insert")) {
-            insert(sql.getQuery(), sql.getSequenceName(), params);
+            return (T) insert(sql.getQuery(), sql.getSequenceName(), params);
         } else if (sql.getType().equalsIgnoreCase("update")) {
             update(sql.getQuery(), params);
+            return (T) AjaxController.AjaxReplaceType.UPDATED;
         } else if (sql.getType().equalsIgnoreCase("delete")) {
             delete(sql.getQuery(), params);
+            return (T) AjaxController.AjaxReplaceType.UPDATED;
         }
         return (T) AjaxController.AjaxReplaceType.NO_RESULT;
     }
@@ -59,7 +61,7 @@ public class SqlQueryService {
         }
     }
 
-    public long insert(String query, String sequenceName, Object[] sqlParams) {
+    public Long insert(String query, String sequenceName, Object[] sqlParams) {
         Long id = 0l;
         for(int i = 0; i< sqlParams.length; i++) {
             if(sqlParams[i] == AjaxController.AjaxReplaceType.ITS_ID) {

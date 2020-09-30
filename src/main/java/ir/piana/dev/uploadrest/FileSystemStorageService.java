@@ -102,7 +102,7 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
-    public String store(String sourceData, String group) {
+    public String store(String sourceData, String group, int rotation) {
         String format = "";
         try {
             String[] parts = sourceData.split(",");
@@ -133,7 +133,7 @@ public class FileSystemStorageService implements StorageService {
             int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB
                     : originalImage.getType();
 
-            BufferedImage scaledImg = manipulateImage(originalImage, type, 0,
+            BufferedImage scaledImg = manipulateImage(originalImage, type, rotation,
                     storageProperties.getGroups().get(group).getWidth(),
                     storageProperties.getGroups().get(group).getHeight());
 

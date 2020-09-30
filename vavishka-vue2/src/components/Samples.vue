@@ -2,7 +2,7 @@
   <div class="container" id="bulma-sample-search-page">
     <div class="columns is-mobile is-multiline">
       <div v-if="appInfo && appInfo.isAdmin" class="column is-full-mobile is-one-quarter-desktop">
-        <pictorial-sample-item-creator v-on:add-item="addItem" :form-name="'uploader1'" :property-name="'image'">
+        <pictorial-sample-item-creator v-on:add-item="addSample" :form-name="'uploader1'" :property-name="'image'">
         </pictorial-sample-item-creator>
       </div>
       <!--v-if="!appInfo || !appInfo.isAdmin"-->
@@ -16,7 +16,7 @@
                                :description="d['description']"
                                :title="d['title']"></pictorial-sample-item>
         <pictorial-sample-item-creator v-if="d['id'] == editedId"
-                                       v-on:add-item="addItem"
+                                       v-on:add-item="addSample"
                                        v-on:edit-item="editItem"
                                        :edited-item="d"
                                        :form-name="'uploader1'"
@@ -50,10 +50,12 @@
       }
     },
     methods: {
-      addItem(form) {
+      addSample(form) {
         try {
           console.log(JSON.stringify(form));
-          this.$axios.post('/api/sample/add', form, {headers: {'file-group': 'sample'}})
+          // this.$axios.post('/api/sample/add', form, {headers: {'file-group': 'sample'}})
+          this.$axios.post('/api/ajax/serve', form,
+                  {headers: {'action': 'sample', 'activity': 'addSample','group': 'sample'}})
             .then((response) => {
               console.log(response.data);
               this.samples.push(response.data);
