@@ -52,7 +52,7 @@ app:
             type: select
             query: select id, title, description, image_src from samples where title=? and description like ?
             resultType: object
-            params: 1=title,2=description
+            params: 1=title,2=%description%
         addSample:
           sql:
             type: insert

@@ -1,8 +1,6 @@
-package ir.piana.business.store.rest;
+package ir.piana.dev.sqlrest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.piana.business.store.action.ActionProperties;
-import ir.piana.business.store.service.sql.SqlQueryService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -71,8 +69,22 @@ public class AjaxController {
                     params = new Object[split.length];
                     for(String s : split) {
                         String[] split1 = s.split("=");
-                        params[Integer.valueOf(split1[0]) - 1] = split1[1].equals("!") ?
-                                AjaxReplaceType.ITS_ID : body.get(split1[1]);
+                        if(split1[1].equals("!")) {
+                            params[Integer.valueOf(split1[0]) - 1] = AjaxReplaceType.ITS_ID;
+                        } else {
+                            if(split1[1].startsWith("%") || split1[1].endsWith("%")) {
+                                String begin = split1[1].startsWith("%") ? "%" : "";
+                                String end = split1[1].endsWith("%") ? "%" : "";
+                                String key = split1[1];
+                                if(!begin.isEmpty())
+                                    key = split1[1].substring(1);
+                                if(!end.isEmpty())
+                                    key = key.substring(0, key.length() - 1);
+                                params[Integer.valueOf(split1[0]) - 1] = begin + body.get(key) + end;
+                            } else {
+                                params[Integer.valueOf(split1[0]) - 1] = body.get(split1[1]);
+                            }
+                        }
                     }
                 } else {
                     params = new Object[0];

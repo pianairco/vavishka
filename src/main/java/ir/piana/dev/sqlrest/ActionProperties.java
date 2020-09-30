@@ -1,4 +1,4 @@
-package ir.piana.business.store.action;
+package ir.piana.dev.sqlrest;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

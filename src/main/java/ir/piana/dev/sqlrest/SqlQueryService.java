@@ -1,7 +1,6 @@
-package ir.piana.business.store.service.sql;
+package ir.piana.dev.sqlrest;
 
-import ir.piana.business.store.action.ActionProperties;
-import ir.piana.business.store.rest.AjaxController;
+import ir.piana.business.store.service.sql.SqlProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,13 +13,6 @@ import java.util.Map;
 public class SqlQueryService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    SqlProperties sqlProperties;
-
-    @Autowired
-    public SqlQueryService(SqlProperties properties) {
-        sqlProperties = properties;
-    }
 
     public <T> T execute(ActionProperties.SQL sql, Object[] params) {
         if (sql.getType().equalsIgnoreCase("select")) {

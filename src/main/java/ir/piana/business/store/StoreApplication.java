@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
-import ir.piana.business.store.action.ActionProperties;
+import ir.piana.dev.sqlrest.ActionProperties;
 import ir.piana.business.store.cfg.StaticResourceProperties;
 import ir.piana.business.store.rest.ImageLoaderProperties;
 import ir.piana.business.store.service.sql.SqlProperties;
@@ -21,11 +21,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.servlet.ServletContext;
-
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"ir.piana.business.store", "ir.piana.dev.sqlrest"})
 //@ServletComponentScan("")
 @EnableTransactionManagement
 @EnableCaching
