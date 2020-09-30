@@ -57,6 +57,14 @@ public class SqlService {
         }
     }
 
+    public Long selectLong(String query, Object[] sqlParams) {
+        try {
+            return jdbcTemplate.queryForObject(query, sqlParams, Long.class);
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
+    }
+
     public void delete(String group, Object[] sqlParams) {
         jdbcTemplate.update(sqlProperties.getGroups().get(group).getDelete(), sqlParams);
     }

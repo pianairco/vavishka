@@ -1,6 +1,5 @@
 <template>
   <div id="app" >
-    <spinner></spinner>
     <topbar></topbar>
     <app-header v-if="isHome"></app-header>
     <router-view/>
@@ -16,18 +15,15 @@
   export default {
     name: 'App',
     async mounted () {
-    // async beforeCreate () {
+      // async beforeCreate () {
       console.log('Nothing gets called before me!')
       console.log(this.remoteServer);
-      try {
-        let appInfo = await this.$axios.get('http://localhost' + '/api/app-info').then((res) => {
-          let appInfo = res['data'];
-          this.$store.commit('setAppInfo', appInfo)
-          return appInfo
-        })
-      } catch (e) {
-        console.log("set appinfo : ", appInfo)
-      }
+      let appInfo = await this.$axios.get('http://localhost' + '/api/app-info').then((res) => {
+        let appInfo = res['data'];
+        console.log(appInfo)
+        this.$store.commit('setAppInfo', appInfo)
+        return appInfo
+      })
     },
     computed: {
       isHome() {
@@ -48,6 +44,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
-    margin-top: 0px;
+    margin-top: 12px;
+    margin-bottom: 12px;
   }
 </style>

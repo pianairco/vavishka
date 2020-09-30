@@ -13,6 +13,8 @@
       },
       computed: {
         waitVal: function () {
+          console.log("dddddddd")
+          console.log(this.$store.getters.getWaiterVal)
           // console.log(this.$store.getFromForm('waiter', 'wait'))
           return this.$store.getters.getWaiterVal;
           // return this.$store.getFromForm('waiter', 'wait');
@@ -20,6 +22,7 @@
       },
       watch: {
         waitVal: function () {
+          console.log("ccccccccc")
           this.$store.getters.getWaiterVal;
           // this.$store.getFromForm('waiter', 'wait');
         }

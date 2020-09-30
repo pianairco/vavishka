@@ -1,9 +1,10 @@
 <template lang="html">
   <div class="container" id="bulma-sample-page">
 <!--    <button v-on:click="testAdd">ew</button>-->
+    <spinner></spinner>
     <div class="columns is-mobile is-multiline">
       <div class="column is-full-mobile is-one-quarter-desktop">
-        <pictorial-menu-item-creator v-if="appInfoVal && appInfoVal.isAdmin" :sampleId="sampleId" v-on:add-item="addItem" :form-name="'uploader1'" :icon-property-name="'icon'">
+        <pictorial-menu-item-creator :sampleId="sampleId" v-on:add-item="addItem" :form-name="'uploader1'" :icon-property-name="'icon'">
         </pictorial-menu-item-creator>
         <aside class="menu">
           <!--style=" overflow-y: auto; display: flex; flex-direction: column; max-height: 800px;"-->
@@ -70,10 +71,10 @@
         // console.log(this.$store.state)
       },
       addItem: function (form) {
-        console.log(JSON.stringify(form))
-        form['samples_id'] = this.sample.id;
+        console.log(form)
+        // form['samples_id'] = this.sample.id;
         form['orders'] = this.sessions.length + 1;
-        this.$axios.post('/api/sample/session/add', form, {headers: {'file-group': 'sample-session'}})
+        this.$axios.post('/api/sample/session/add', form, {headers: {'file-group': 'session'}})
           .then((response) => {
             console.log(response.data);
             this.sessions.push(response.data);
@@ -106,30 +107,6 @@
       selectSessionImage: function (id) {
         console.log(id)
         this.$store.setToForm('session', 'activeId', id);
-      },
-      addSessionImage: function (image, rotate) {
-        console.log("add new session image:", image, rotate);
-        this.$store.setToForm('waiter', 'wait', 1)
-        let formData = new FormData();
-        formData.append('file', image);
-        let headers = {
-          'image_upload_group': this.imageUploadGroup,
-          'image-upload-rotation': rotate,
-          'sessionId': 'i:' + this.activeId,
-          'orders': 'i:' + (Object.keys(this.sessionImageMap).length + 1),
-          'Content-Type': 'multipart/form-data'
-        };
-
-        this.$axios.post(this.imageUploadUrl, formData, {
-          headers: headers
-        }).then((res) => {
-          this.$store.setToFormProperty('session', 'images', res['data']['id'], res['data']);
-          this.$store.setToForm('waiter', 'wait', 0)
-        }).catch((e) => {
-          console.log('FAILURE!!');
-          console.log(e);
-          this.$store.setToForm('waiter', 'wait', 0)
-        });
       },
       replaceSessionImage: function (image, imageId) {
         console.log("replace new session image:", image, imageId);
@@ -172,21 +149,6 @@
       // console.log(Object.keys(this.sessionImages).length);
       // console.log(this.sessionImages);
       // console.log(this.sessionMap);
-    },
-    computed: {
-      appInfoVal: function () {
-        console.log("store => appInfo : ", this.$store.getters.getAppInfo)
-        // console.log(this.$store.getFromForm('waiter', 'wait'))
-        return this.$store.getters.getAppInfo;
-        // return this.$store.getFromForm('waiter', 'wait');
-      }
-    },
-    watch: {
-      appInfoVal: function () {
-        // console.log(this.$store.getFromForm('waiter', 'wait'))
-        return this.$store.getters.getAppInfo;
-        // return this.$store.getFromForm('waiter', 'wait');
-      }
     },
     components: {
       Spinner,

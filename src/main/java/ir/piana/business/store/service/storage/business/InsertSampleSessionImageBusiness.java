@@ -18,8 +18,9 @@ public class InsertSampleSessionImageBusiness implements AfterSaveImage {
     @Override
     public ResponseEntity doWork(HttpServletRequest request, String path) {
         Object sessionId = getValueObject(request.getHeader("sessionId"));
-        Object orders = getValueObject(request.getHeader("orders"));
+//        Object orders = getValueObject(request.getHeader("orders"));
 
+        Long orders = sqlService.selectLong("select max(orders) + 1 from samples_session_image where samples_session_id = ?", new Object[] {sessionId});
         long id = insert(path, sessionId, orders);
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", id);

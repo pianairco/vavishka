@@ -102,7 +102,6 @@
   .sample-item-overlay-button {
     color: #c69500;
     cursor: pointer;
-    padding: 2px !important;
   }
   .sample-item-overlay-button:hover {
     background-color: #c2e0f5;

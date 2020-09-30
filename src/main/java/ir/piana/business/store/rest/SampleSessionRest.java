@@ -47,9 +47,11 @@ public class SampleSessionRest {
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
         long id = sqlService.insert(group, "vavishka_seq",
-                new Object[]{sampleItem.get("samples_id"), sampleItem.get("title"),
+                new Object[]{sampleItem.get("samples_id"),
+                        sampleItem.get("title"),
                         sampleItem.get("description"),
-                        iconSrc, sampleItem.get("orders")});
+                        iconSrc,
+                        sampleItem.get("orders")});
         Map map = new LinkedHashMap();
         map.put("id", id);
         map.put("samples_id", sampleItem.get("samples_id"));

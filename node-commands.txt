@@ -1,4 +1,5 @@
 http://vuejs-templates.github.io/webpack/
+https://cli.vuejs.org/guide/creating-a-project.html#vue-create
 
 ---------------
 

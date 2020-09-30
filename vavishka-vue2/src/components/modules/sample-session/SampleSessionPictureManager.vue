@@ -6,9 +6,6 @@
         <img v-if="activeId != 0" :src="'/cdn' + images[activeId]['imageSrc']" v-bind:style="{ transform: rotateVal }">
       </figure>
       <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
-        {{id}}
-      </div>
-      <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
         <div class="column is-full" style="height: 20%;">
           <div v-if="activeId" class="columns" style="padding: 0px; margin: 0px;">
             <input type="file" id="file" ref="file" @change="handleFileUpload($event)"
@@ -42,6 +39,7 @@
         <session-picture-upload v-on:add-session-image="addSessionImage"></session-picture-upload>
         <session-picture-select
           v-for="image in images"
+          :key="image"
           :session-image="image"
           v-bind:active-id="activeId"
           v-on:select-session-image="selectSessionImage"></session-picture-select>
@@ -51,13 +49,42 @@
 </template>
 
 <script lang="js">
-  import SessionPictureUpload from './modules/sample-session/SessionPictureUpload'
-  import SessionPictureSelect from './modules/sample-session/SessionPictureSelect'
+  import SessionPictureUpload from '../sample-session/SessionPictureUpload'
+  import SessionPictureSelect from '../sample-session/SessionPictureSelect'
 
   export default {
-    name: 'Session',
+    name: 'SampleSessionPictureManager',
     props: {
-      id: 0
+      formName: String,
+      propertyName: String,
+      isUpload: {
+        type: Boolean,
+        default: true
+      },
+      isActive: {
+        type: Boolean,
+        default: false
+      },
+      sessionId: {
+        type: Number
+      },
+      url: String,
+      imageUploadGroup: {
+        type: String
+      },
+      order: {
+        type: String
+      },
+      editedImageSrc: {
+        type: String
+      },
+      title: {
+        type: String
+      },
+      unknownURL: {
+        default: '/images/no-image.png',
+        type: String
+      }
     },
     data: function () {
       return {
@@ -69,32 +96,7 @@
         sharedState: this.$store.state,
         images: {},
         activeId: 0,
-        rotate: 0,
-        xxx: null,
-        formName: String,
-        propertyName: String,
-        isUpload: true,
-        isActive: false,
-        sessionId: {
-          type: Number
-        },
-        url: String,
-        imageUploadGroup: {
-          type: String
-        },
-        order: {
-          type: String
-        },
-        editedImageSrc: {
-          type: String
-        },
-        title: {
-          type: String
-        },
-        unknownURL: {
-          default: '/cdn/img/no-image.png',
-          type: String
-        }
+        rotate: 0
       }
     },
     components: {
@@ -116,9 +118,6 @@
       }
     },
     watch: {
-      $route: function (to, from){
-        this.loadImages();
-      },
       // waiterVal: function () {
       //   this.$store.getFromForm('waiter', 'wait');
       // },
@@ -129,12 +128,14 @@
         this.activeId = this.$store.getters.getFromForm('session', 'activeId');
       }
     },
+    mounted: function () {
+    },
     methods: {
       reset: function () {
         this.item.image = false;
       },
       selectSessionImage: function (id) {
-        this.activeId = id;
+        this.$emit("select-session-image", id);
       },
       addSessionImage: function (image, rotate) {
         console.log("click")
@@ -179,56 +180,7 @@
         this.idx--;
         if (this.idx < 0)
           this.idx = this.images.length - 1;
-      },
-      loadImages: function () {
-        this.activeId = 0;
-        try {
-          this.$axios.get(this.remoteServer + '/api/sample/session/images?id=' + this.id, {headers: {}})
-            .then((response) => {
-            console.log('++++++++++++++');
-            console.log(this.images);
-            console.log(response.data);
-            this.images = {};
-          for (var prop in response.data) {
-            if (Object.prototype.hasOwnProperty.call(response.data, prop)) {
-              // do stuff
-              console.log(prop)
-              if(this.activeId == 0)
-                this.activeId = prop;
-              this.images[prop.toString()] = response.data[prop];
-            }
-          }
-
-          console.log(this.images)
-
-          // this.samples = response.data;
-          // response.data.forEach(a => this.sessions.push(a));
-          // this.samples.push(response.data);
-          // console.log(this.sessions);
-          // this.sessions.push(response.data);
-          // this.$store.commit('setAppInfo', response.data);
-        }).catch((err) => {
-            console.error(err);
-            self.isLoading = false;
-            this.message = err
-        });
-        } catch (e) {
-          console.error(e);
-        }
       }
-    },
-    mounted: function () {
-    },
-    beforeRouteUpdate: function (to, from, next) {
-      next();
-      // this.getContent(to.params.uid);
-    },
-    updated: function () {
-      console.log("+")
-      // this.loadImages();
-    },
-    created: function () {
-      this.loadImages();
     }
   };
 </script>
@@ -237,7 +189,6 @@
   .sample-item-overlay-button {
     color: #c69500;
     cursor: pointer;
-    padding: 2px !important;
   }
   .sample-item-overlay-button:hover {
     background-color: #c2e0f5;
