@@ -6,6 +6,7 @@ import ir.piana.business.store.data.entity.GoogleUserEntity;
 import ir.piana.dev.sqlrest.ActionProperties;
 import ir.piana.dev.sqlrest.AjaxController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import java.util.function.BiFunction;
 @Service("auth")
 public class AuthAction extends AjaxController.Action {
     @Autowired
+    @Qualifier("objectMapper")
     private ObjectMapper mapper;
 
     @Autowired

@@ -1,9 +1,11 @@
 package ir.piana.dev.sqlrest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.dev.uploadrest.StorageService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,10 @@ public class AjaxController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    @Qualifier("jdbcObjectMapper")
+    private ObjectMapper objectMapper;
+
     private static ObjectMapper jsonMapper = new ObjectMapper();
 
     @RequestMapping(value = "/serve", method = RequestMethod.POST,
@@ -73,15 +79,18 @@ public class AjaxController {
                     return internalServerError.apply(request);
                 }
             } else if(activity.getSql() != null) {
-                Map containerMap = new LinkedHashMap();
+                Map<String, Object> containerMap = new LinkedHashMap();
                 Object[] params = null;
                 if(activity.getSql().getParams() != null && !activity.getSql().getParams().isEmpty()) {
                     String[] split = activity.getSql().getParams().split(",");
                     params = new Object[split.length];
                     for(String s : split) {
                         String[] split1 = s.split("=");
-                        if(split1[1].equals("!")) {
-                            params[Integer.valueOf(split1[0]) - 1] = AjaxReplaceType.ITS_ID;
+                        if(split1[1].startsWith("!")) {
+                            String[] split2 = split1[1].substring(1).split(":");
+                            Long aLong = sqlService.selectSequenceValue(split2[1]);
+                            containerMap.put(split2[0], aLong);
+                            params[Integer.valueOf(split1[0]) - 1] = aLong;
                         } else if(split1[1].startsWith("%") || split1[1].endsWith("%")) {
                             String begin = split1[1].startsWith("%") ? "%" : "";
                             String end = split1[1].endsWith("%") ? "%" : "";
@@ -113,11 +122,30 @@ public class AjaxController {
                     return notFound.apply(request);
                 else {
                     HttpHeaders responseHeaders = new HttpHeaders();
-                    if(activity.getSql() != null && activity.getSql().getType().equalsIgnoreCase("insert") && activity.getSql().getResult() != null) {
-                        String[] split = activity.getSql().getResult().split(",");
-
+                    if(activity.getSql() != null && activity.getSql().getType().equalsIgnoreCase("insert")) {
+                        if(activity.getSql().getResult() != null) {
+                            Map<String, Object> resultMap = new LinkedHashMap<>();
+                            String[] split = activity.getSql().getResult().split(",");
+                            for (int i = 0; i < split.length; i++) {
+                                String[] split1 = split[i].split("=");
+                                if (split1[1].startsWith("@")) {
+                                    resultMap.put(split1[0], containerMap.get(split1[1].substring(1)));
+                                } else {
+                                    resultMap.put(split1[0], body.get(split1[1]));
+                                }
+                            }
+                            return ResponseEntity.ok(resultMap);
+                        } else {
+                            //ToDo: return id as { 'id': id }
+                        }
                     }
-                    return ResponseEntity.ok(result);
+                    String s = null;
+                    try {
+                        s = objectMapper.writeValueAsString(result);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    return ResponseEntity.ok(s);
                 }
             }
         }
@@ -163,6 +191,7 @@ public class AjaxController {
 
     public static enum AjaxReplaceType {
         NO_RESULT,
+        INSERTED,
         UPDATED,
         ITS_ID
     }

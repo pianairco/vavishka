@@ -36,14 +36,25 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 public class StoreApplication {
 
-	@Bean("objectMapper")
-	public ObjectMapper getObjectMapper() {
+	@Bean("jdbcObjectMapper")
+	public ObjectMapper getJdbcObjectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule("LowerCaseKeyDeserializer",
 				new Version(1,0,0,null));
 		module.addKeyDeserializer(Object.class, new LowerCaseKeyDeserializer());
 		module.addKeySerializer(Object.class, new LowerCaseKeySerializer());
 		objectMapper.registerModule(module);
+		return objectMapper;
+	}
+
+	@Bean("objectMapper")
+	public ObjectMapper getObjectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+//		SimpleModule module = new SimpleModule("LowerCaseKeyDeserializer",
+//				new Version(1,0,0,null));
+//		module.addKeyDeserializer(Object.class, new LowerCaseKeyDeserializer());
+//		module.addKeySerializer(Object.class, new LowerCaseKeySerializer());
+//		objectMapper.registerModule(module);
 		return objectMapper;
 	}
 

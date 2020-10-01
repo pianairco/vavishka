@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.business.store.service.sql.SqlService;
 import ir.piana.dev.uploadrest.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class SampleRest {
     private SqlService sqlService;
 
     @Autowired
+    @Qualifier("objectMapper")
     private ObjectMapper mapper;
 
     @PostMapping(path = "sample/add", consumes = MediaType.APPLICATION_JSON_VALUE,

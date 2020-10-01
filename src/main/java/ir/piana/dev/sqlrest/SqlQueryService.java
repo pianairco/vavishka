@@ -30,7 +30,8 @@ public class SqlQueryService {
                 return (T) selectObject(sql.getQuery(), params, Boolean.class);
             }
         } else if (sql.getType().equalsIgnoreCase("insert")) {
-            return (T) insert(sql.getQuery(), sql.getSequenceName(), params);
+            insert(sql.getQuery(), sql.getSequenceName(), params);
+            return (T) AjaxController.AjaxReplaceType.INSERTED;
         } else if (sql.getType().equalsIgnoreCase("update")) {
             update(sql.getQuery(), params);
             return (T) AjaxController.AjaxReplaceType.UPDATED;
@@ -61,18 +62,23 @@ public class SqlQueryService {
         }
     }
 
+    public Long selectSequenceValue(String sequenceName) {
+        return jdbcTemplate.queryForObject("select " + sequenceName + ".nextval from dual", Long.class);
+    }
+
     public Long insert(String query, String sequenceName, Object[] sqlParams) {
-        Long id = 0l;
-        for(int i = 0; i< sqlParams.length; i++) {
-            if(sqlParams[i] == AjaxController.AjaxReplaceType.ITS_ID) {
-                id = jdbcTemplate.queryForObject("select " + sequenceName + ".nextval from dual", Long.class);
-                sqlParams[i] = id;
-                break;
-            }
-        }
+//        Long id = null;
+//        for(int i = 0; i< sqlParams.length; i++) {
+//            if(sqlParams[i] == AjaxController.AjaxReplaceType.ITS_ID) {
+//                id = jdbcTemplate.queryForObject("select " + sequenceName + ".nextval from dual", Long.class);
+//                sqlParams[i] = id;
+//                break;
+//            }
+//        }
         jdbcTemplate.update(query, sqlParams);
 //        jdbcTemplate.update(query, ArrayUtils.addAll(new Object[] {id}, sqlParams));
-        return id == null ? 0 : id;
+//        return id;
+        return 0l;
     }
 
     public void update(String query, Object[] sqlParams) {
