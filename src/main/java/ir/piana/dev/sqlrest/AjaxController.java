@@ -57,7 +57,7 @@ public class AjaxController {
     public @ResponseBody
     ResponseEntity handleAjax(HttpServletRequest request,
                               @RequestBody Map<String, Object> body) {
-        String actionHeader = (String) request.getHeader("action");
+;        String actionHeader = (String) request.getHeader("action");
         String activityHeader = (String) request.getHeader("activity");
         if(actionProperties.getActions().containsKey(actionHeader) && actionProperties.getActions().get(actionHeader).containsKey(activityHeader)) {
             ActionProperties.Activity activity = actionProperties.getActions().get(actionHeader).get(activityHeader);
@@ -101,7 +101,7 @@ public class AjaxController {
                                 key = key.substring(0, key.length() - 1);
                             params[Integer.valueOf(split1[0]) - 1] = begin + body.get(key) + end;
                         } else if(split1[1].startsWith("@")) {
-                            String[] substring = split1[1].substring(1).split("\\*");
+                            String[] substring = split1[1].substring(1).split(":");
                             String index = substring[0];
                             String[] split2 = substring[1].split("&");
                             String base64 = parameterParser.parse(split2[0], request, body);
@@ -111,7 +111,7 @@ public class AjaxController {
                             params[Integer.valueOf(split1[0]) - 1] = imageSrc;
                             containerMap.put(index, imageSrc);
                         } else {
-                            params[Integer.valueOf(split1[0]) - 1] = body.get(split1[1]);
+                            params[Integer.valueOf(split1[0]) - 1] = parameterParser.parse(split1[1], request, body);
                         }
                     }
                 } else {

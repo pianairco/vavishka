@@ -58,7 +58,11 @@
     data: function () {
       return {
         model: {
-          icon: '',
+          id: 0,
+          icon: {
+            base64: '',
+            rotate: 0
+          },
           title: '',
           description: '',
           samples_id: 0
@@ -72,18 +76,28 @@
     },
     methods: {
       reset: function () {
+        this.model = {
+          id: 0,
+          icon: {
+            base64: '',
+            rotate: 0
+          },
+          title: '',
+          description: '',
+          sampleId: 0
+        };
         this.title = '';
         this.description = '';
         this.imageSrc = '';
         this.$refs.picUpload.reset();
       },
       pictureSelected: function (imageSrc) {
-        this.model.icon = imageSrc;
+        this.model.icon.base64 = imageSrc;
         // console.log(imageSrc)
       },
       addClick: function () {
         // console.log(JSON.stringify(this.sharedState.forms[this.formName]))
-        this.model.samples_id = this.sampleId;
+        this.model.sampleId = this.sampleId;
         console.log(this.model)
         // this.$store.commit('setToForm', {
         //   formName: this.formName,

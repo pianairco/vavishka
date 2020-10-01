@@ -4,7 +4,7 @@
     <spinner></spinner>
     <div class="columns is-mobile is-multiline">
       <div class="column is-full-mobile is-one-quarter-desktop">
-        <pictorial-menu-item-creator :sampleId="sampleId" v-on:add-item="addItem" :form-name="'uploader1'" :icon-property-name="'icon'">
+        <pictorial-menu-item-creator :sampleId="sampleId" v-on:add-item="addSession" :form-name="'uploader1'" :icon-property-name="'icon'">
         </pictorial-menu-item-creator>
         <aside class="menu">
           <!--style=" overflow-y: auto; display: flex; flex-direction: column; max-height: 800px;"-->
@@ -70,11 +70,14 @@
         );
         // console.log(this.$store.state)
       },
-      addItem: function (form) {
+      addSession: function (form) {
         console.log(form)
         // form['samples_id'] = this.sample.id;
         form['orders'] = this.sessions.length + 1;
-        this.$axios.post('/api/sample/session/add', form, {headers: {'file-group': 'session'}})
+        // this.$axios.post('/api/sample/session/add', form, {headers: {'file-group': 'session'}})
+        this.$axios.post('/api/ajax/serve', form,
+                { headers: { 'action': 'session', 'activity': 'addSession','group': 'session' } })
+                // {headers: {'file-group': 'session'}})
           .then((response) => {
             console.log(response.data);
             this.sessions.push(response.data);
@@ -159,8 +162,9 @@
     created: function () {
       try {
         // this.$axios.get(this.remoteServer + '/api/sample/session/' + this.sampleId, {headers: {}})
-        this.$axios.post(this.remoteServer + '/api/ajax/serve', { id: this.sampleId },
-                { headers: { 'action': 'sample', activity: 'sampleById' } })
+        this.$axios.post(this.remoteServer + '/api/ajax/serve', { sampleId: this.sampleId },
+                { headers: { 'action': 'session', activity: 'sessions' } })
+                // { headers: { 'action': 'sample', activity: 'sampleById' } })
           .then((response) => {
             console.log("---------------")
             console.log(this.sessions);

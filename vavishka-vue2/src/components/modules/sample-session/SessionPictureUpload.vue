@@ -71,7 +71,7 @@
         },
         uploadClick: function () {
           console.log("click")
-          this.$emit("add-session-image", this.file, this.rotate);
+          this.$emit("add-session-image", this.item.image, this.rotate);
         },
         trashClick: function () {
           this.item.image = false;

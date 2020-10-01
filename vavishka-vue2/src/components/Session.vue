@@ -2,8 +2,8 @@
   <div class="card">
     <div class="card-image">
       <figure class="image is-4by3" style="overflow: hidden;">
-        <img v-if="activeId == 0" :src="unknownURL">
-        <img v-if="activeId != 0" :src="'/cdn' + images[activeId]['imageSrc']" v-bind:style="{ transform: rotateVal }">
+        <img v-if="activeId == 0" :src="unknownURL" class="eee">
+        <img v-if="activeId != 0" :src="'/cdn' + activeImage['imageSrc']" v-bind:style="{ transform: rotateVal }">
       </figure>
       <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
         <div class="column is-full" style="height: 20%;">
@@ -38,7 +38,7 @@
       <div class="columns is-mobile is-multiline" style="margin: 0px;">
         <session-picture-upload v-on:add-session-image="addSessionImage"></session-picture-upload>
         <session-picture-select
-          v-for="image in imagesObject"
+          v-for="image in images"
           :session-image="image"
           v-bind:active-id="activeId"
           v-on:select-session-image="selectSessionImage"></session-picture-select>
@@ -64,7 +64,7 @@
         },
         file: '',
         sharedState: this.$store.state,
-        images: {},
+        images: [],
         activeId: 0,
         rotate: 0,
         xxx: null,
@@ -86,10 +86,7 @@
         title: {
           type: String
         },
-        unknownURL: {
-          default: '/cdn/img/no-image.png',
-          type: String
-        }
+        unknownURL: '/cdn/img/no-image.png'
       }
     },
     components: {
@@ -106,8 +103,17 @@
       // activeIdVal: function () {
       //   return this.$store.getFromForm('session', 'activeId');
       // },
-      imagesObject: function() {
-        return this.images
+      // imagesObject: function() {
+      //   return this.images
+      // },
+      activeImage: function () {
+        for(const [i, img] of this.images.entries()) {
+          if (img['id'] === this.activeId) {
+            this.idx = i;
+            return img;
+          }
+        }
+        this.activeId = 0
       },
       rotateVal: function () {
         return 'rotate(' + this.rotate + 'deg)';
@@ -120,18 +126,19 @@
       // waiterVal: function () {
       //   this.$store.getFromForm('waiter', 'wait');
       // },
-      imagesVal: function () {
-        this.images = this.$store.getFromForm('session', 'images');
-      },
-      activeIdVal: function () {
-        this.activeId = this.$store.getters.getFromForm('session', 'activeId');
-      }
+      // imagesVal: function () {
+      //   this.images = this.$store.getFromForm('session', 'images');
+      // },
+      // activeIdVal: function () {
+      //   this.activeId = this.$store.getters.getFromForm('session', 'activeId');
+      // }
     },
     methods: {
       reset: function () {
         this.item.image = false;
       },
       selectSessionImage: function (id) {
+        console.log("id ", id)
         this.activeId = id;
       },
       // addSessionImage: function (image, rotate) {
@@ -151,17 +158,22 @@
           'Content-Type': 'multipart/form-data'
         };
 
-        console.log(headers);
-        console.log(this.imageUploadGroup);
+        // console.log(headers);
+        // console.log(this.imageUploadGroup);
 
-        this.$axios.post('/api/images/image-upload', formData, {
-          headers: headers
-        }).then((res) => {
+        console.log('=======', this.images.length);
+
+        // this.$axios.post('/api/images/image-upload', formData, {
+        this.$axios.post('/api/ajax/serve', { sessionId: this.id, image: image, rotate: rotate, orders: this.images.length + 1 },
+                {headers: {'action': 'session', 'activity': 'addSessionImage', 'group': 'insert-sample-session-image'}})
+                // { headers: headers })
+                .then((res) => {
           this.$store.commit('subWaiterWait');
           console.log(res.data)
           // this.images = Object.assign(this.images, { res.data.id: res.data });
-          this.images[res.data['id']] = res.data;
-          this.images = JSON.parse(JSON.stringify(this.images));
+          // this.images[res.data['id']] = res.data;
+          // this.images = JSON.parse(JSON.stringify(this.images));
+                  this.images.push(res.data)
           console.log(this.images);
           // this.$store.setToFormProperty('session', 'images', res['data']['id'], res['data']);
           // this.$store.setToForm('waiter', 'wait', 0)
@@ -206,30 +218,39 @@
         this.idx++;
         if (this.idx >= this.images.length)
           this.idx = 0;
+        this.activeId = this.images[this.idx].id;
       },
       prev: function () {
         this.idx--;
         if (this.idx < 0)
           this.idx = this.images.length - 1;
+        this.activeId = this.images[this.idx].id;
       },
       loadImages: function () {
+        console.log(this.id)
+        this.idx = 0;
         this.activeId = 0;
         try {
-          this.$axios.get(this.remoteServer + '/api/sample/session/images?id=' + this.id, {headers: {}})
+          // this.$axios.get(this.remoteServer + '/api/sample/session/images?id=' + this.id, {headers: {}})
+          this.$axios.post(this.remoteServer + '/api/ajax/serve?sessionId=' + this.id, {},
+                  { headers: { 'action': 'session', 'activity': 'images' } })
             .then((response) => {
-            // console.log('++++++++++++++');
-            // console.log(this.images);
-            // console.log(response.data);
-            this.images = {};
-          for (var prop in response.data) {
-            if (Object.prototype.hasOwnProperty.call(response.data, prop)) {
-              // do stuff
-              // console.log(prop)
-              if(this.activeId == 0)
-                this.activeId = prop;
-              this.images[prop.toString()] = response.data[prop];
-            }
-          }
+            console.log('++++++++++++++');
+            console.log('activeId: ', this.activeId);
+            console.log(this.images);
+            console.log(response.data);
+            this.images = response.data;
+              this.activeId = this.images[this.idx].id;
+          // for (var prop in response.data) {
+          //   console.log(prop);
+          //   if (Object.prototype.hasOwnProperty.call(response.data, prop)) {
+          //     // do stuff
+          //     // console.log(prop)
+          //     if(this.activeId == 0)
+          //       this.activeId = prop;
+          //     this.images[prop.toString()] = response.data[prop];
+          //   }
+          // }
 
           console.log(this.images)
 
@@ -290,5 +311,9 @@
     padding: 4px;
     border-radius: 6px;
     cursor: pointer !important;
+  }
+
+  .eee {
+    color: blue;
   }
 </style>
