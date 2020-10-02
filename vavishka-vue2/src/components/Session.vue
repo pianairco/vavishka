@@ -49,7 +49,12 @@
           {{detail}}
         </div>
 <!--        <textarea v-if="!detail" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>-->
-        <textarea v-if="appInfo && !appInfo.isAdmin" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>
+        <textarea v-if="appInfo && appInfo.isAdmin" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>
+
+        <button v-if="appInfo && appInfo.isAdmin" v-on:click="uploadDetail" class="button is-success is-small is-fullwidth" style="margin-top: 8px">Upload
+          <i class="fa fa-upload" style="margin-right: 6px"></i>
+        </button>
+
         <!--<div class="content" style="overflow-x: hidden; overflow-y: auto; height: 72px;">
           {{detail}}
         </div>-->
@@ -106,22 +111,10 @@
       SessionPictureSelect
     },
     computed: {
-      // waiterVal: function () {
-      //   return this.$store.getFromForm('waiter', 'wait');
-      // },
-      // imagesVal: function () {
-      //   return this.$store.getFromForm('session', 'images');
-      // },
-      // activeIdVal: function () {
-      //   return this.$store.getFromForm('session', 'activeId');
-      // },
-      // imagesObject: function() {
-      //   return this.images
-      // },
       appInfo () {
         console.log(this.$store.state.appInfo);
         if(this.$store.state.appInfo)
-          console.log(this.$store.state.appInfo.pictureUrl)
+          console.log('pictureUrl', this.$store.state.appInfo.pictureUrl)
         return this.$store.state.appInfo
       },
       activeImage: function () {
@@ -140,6 +133,7 @@
     watch: {
       $route: function (to, from){
         this.loadImages();
+        this.loadDetail();
       },
       // waiterVal: function () {
       //   this.$store.getFromForm('waiter', 'wait');
@@ -152,6 +146,21 @@
       // }
     },
     methods: {
+      uploadDetail: function () {
+        this.$store.commit('addWaiterWait');
+        this.$axios.post('/api/ajax/serve', { sessionId: this.id, detail: this.detail },
+                { headers: {'action': 'session', 'activity': 'updateSessionDetail' }})
+                // { headers: headers })
+                .then((res) => {
+                  this.$store.commit('subWaiterWait');
+                  console.log(res.data);
+                  this.detail = res.data.detail;
+                }).catch((e) => {
+          this.$store.commit('subWaiterWait');
+          console.log(e);
+          this.$store.commit('subWaiterWait');
+        });
+      },
       reset: function () {
         this.item.image = false;
       },
@@ -185,7 +194,7 @@
           this.$store.commit('subWaiterWait');
           console.log('FAILURE!!');
           console.log(e);
-          this.$store.setToForm('waiter', 'wait', 0)
+          this.$store.commit('subWaiterWait');
         });
       },
       deleteClick: function () {
@@ -230,6 +239,17 @@
           this.idx = this.images.length - 1;
         this.activeId = this.images[this.idx].id;
       },
+      loadDetail: function () {
+        this.$axios.post(this.remoteServer + '/api/ajax/serve?sessionId=' + this.id, {},
+                { headers: { 'action': 'session', 'activity': 'detail' } })
+                .then((response) => {
+                  this.detail = response.data.detail;
+                }).catch((err) => {
+          console.error(err);
+          self.isLoading = false;
+          this.message = err
+        });
+      },
       loadImages: function () {
         console.log(this.id)
         this.idx = 0;
@@ -264,6 +284,7 @@
     },
     created: function () {
       this.loadImages();
+      this.loadDetail();
     }
   };
 </script>

@@ -20,9 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -50,6 +48,8 @@ public class AjaxController {
     private ObjectMapper objectMapper;
 
     private static ObjectMapper jsonMapper = new ObjectMapper();
+
+    List<String> methods = Arrays.asList(new String[] {"insert", "update", "delete"});
 
     @RequestMapping(value = "/serve", method = RequestMethod.POST,
             consumes = "application/json; charset=utf8",
@@ -122,7 +122,8 @@ public class AjaxController {
                     return notFound.apply(request);
                 else {
                     HttpHeaders responseHeaders = new HttpHeaders();
-                    if(activity.getSql() != null && activity.getSql().getType().equalsIgnoreCase("insert")) {
+                    if(activity.getSql() != null &&
+                            methods.contains(activity.getSql().getType())) {
                         if(activity.getSql().getResult() != null) {
                             Map<String, Object> resultMap = new LinkedHashMap<>();
                             String[] split = activity.getSql().getResult().split(",");

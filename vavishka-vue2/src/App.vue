@@ -14,7 +14,7 @@
 
   export default {
     name: 'App',
-    async mounted () {
+    async created() {
       // async beforeCreate () {
       console.log('Nothing gets called before me!')
       console.log(this.remoteServer);
@@ -25,7 +25,11 @@
         console.log('appInfo =>', appInfo)
         this.$store.commit('setAppInfo', appInfo)
         return appInfo
-      })
+      });
+      console.log("-----------------")
+    },
+    async mounted () {
+
     },
     computed: {
       isHome() {

@@ -36,7 +36,7 @@ public class AuthAction extends AjaxController.Action {
             appInfo.pictureUrl = ((GoogleUserEntity) authentication.getDetails()).getPictureUrl();
         } else {
             appInfo.isLoggedIn = false;
-            appInfo.isAdmin = true;
+            appInfo.isAdmin = false;
             appInfo.username = authentication.getName();
         }
         return ResponseEntity.ok(appInfo);

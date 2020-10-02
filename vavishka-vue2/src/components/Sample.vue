@@ -171,6 +171,9 @@
             console.log(response.data);
             // this.samples = response.data;
             response.data.forEach(a => this.sessions.push(a));
+            console.log('33333333333');
+            this.$router.push({ path: '/sample/' + this.sampleId + '/session/' + this.sessions[0].id })
+            console.log('44444444444');
             // this.samples.push(response.data);
             console.log(this.sessions);
             // this.sessions.push(response.data);
@@ -178,6 +181,7 @@
           }).catch((err) => {
           self.isLoading = false;
           this.message = err
+          console.log(err)
         });
       } catch (e) {
         console.error(e);

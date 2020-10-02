@@ -40,6 +40,19 @@ app:
   service:
     actions:
       session:
+        detail:
+          sql:
+            type: select
+            query: select detail from samples_session where id = ?
+            resultType: object
+            params: 1=*sessionId
+        updateSessionDetail:
+          sql:
+            type: update
+            query: update samples_session set detail = ? where id = ?
+            resultType: object
+            params: 1=detail,2=sessionId
+            result: detail=detail
         images:
           sql:
             type: select
