@@ -85,7 +85,8 @@ Vue.mixin({
   data: function() {
     return {
       get remoteServer() {
-        return "http://localhost";
+        return "https://vavishka.herokuapp.com/";
+        // return "http://localhost";
       }
     }
   }

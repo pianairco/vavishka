@@ -20,7 +20,7 @@
       console.log('Nothing gets called before me!')
       console.log(this.remoteServer);
       try {
-        let appInfo = await this.$axios.get('http://localhost' + '/api/app-info').then((res) => {
+        let appInfo = await this.$axios.get(this.remoteServer() + '/api/app-info').then((res) => {
           let appInfo = res['data'];
           this.$store.commit('setAppInfo', appInfo)
           return appInfo

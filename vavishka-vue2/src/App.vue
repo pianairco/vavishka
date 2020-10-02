@@ -19,7 +19,7 @@
       console.log('Nothing gets called before me!')
       console.log(this.remoteServer);
       // let appInfo = await this.$axios.get('http://localhost' + '/api/app-info').then((res) => {
-      let appInfo = await this.$axios.post('http://localhost' + '/api/ajax/serve', {},
+      let appInfo = await this.$axios.post(this.remoteServer() + '/api/ajax/serve', {},
               { headers: { 'action': 'auth', activity: 'appInfo' } }).then((res) => {
         let appInfo = res['data'];
         console.log('appInfo =>', appInfo)
