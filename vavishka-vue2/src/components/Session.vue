@@ -13,8 +13,9 @@
             <div class="column" style="padding: 0px; margin: 0px;">
               <span><i class="fa fa-image sample-item-overlay-button" v-on:click="selectImage" aria-hidden="true"></i></span>
               <span><i class="fa fa-trash sample-item-overlay-button" v-on:click="deleteClick" aria-hidden="true"></i></span>
-              <span><i class="fa fa-angle-right sample-item-overlay-button" v-on:click="rotateRightClick" aria-hidden="true"></i></span>
-              <span><i class="fa fa-angle-left sample-item-overlay-button" v-on:click="rotateLeftClick" aria-hidden="true"></i></span>
+              <span><i class="fa fa-share sample-item-overlay-button" v-on:click="rotateRightClick" aria-hidden="true"></i></span>
+              <span><i class="fa fa-share fa-flip-horizontal sample-item-overlay-button" v-on:click="rotateLeftClick" aria-hidden="true"></i></span>
+              <span><i class="fa fa-upload sample-item-overlay-button" v-on:click="rotateLeftClick" aria-hidden="true"></i></span>
             </div>
           </div>
         </div>
@@ -36,12 +37,22 @@
     </div>
     <div class="card-content">
       <div class="columns is-mobile is-multiline" style="margin: 0px;">
-        <session-picture-upload v-on:add-session-image="addSessionImage"></session-picture-upload>
+        <session-picture-upload ref="spuRef" v-on:add-session-image="addSessionImage"></session-picture-upload>
         <session-picture-select
           v-for="image in images"
           :session-image="image"
           v-bind:active-id="activeId"
           v-on:select-session-image="selectSessionImage"></session-picture-select>
+      </div>
+      <div class="columns is-mobile is-multiline" style="margin: 20px 0px;">
+        <div v-if="appInfo && !appInfo.isAdmin" class="content" style="overflow-x: hidden; overflow-y: auto; height: 72px;">
+          {{detail}}
+        </div>
+<!--        <textarea v-if="!detail" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>-->
+        <textarea v-if="appInfo && !appInfo.isAdmin" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>
+        <!--<div class="content" style="overflow-x: hidden; overflow-y: auto; height: 72px;">
+          {{detail}}
+        </div>-->
       </div>
     </div>
   </div>
@@ -62,6 +73,7 @@
         item: {
           image: false,
         },
+        detail: '',
         file: '',
         sharedState: this.$store.state,
         images: [],
@@ -106,6 +118,12 @@
       // imagesObject: function() {
       //   return this.images
       // },
+      appInfo () {
+        console.log(this.$store.state.appInfo);
+        if(this.$store.state.appInfo)
+          console.log(this.$store.state.appInfo.pictureUrl)
+        return this.$store.state.appInfo
+      },
       activeImage: function () {
         for(const [i, img] of this.images.entries()) {
           if (img['id'] === this.activeId) {
@@ -148,20 +166,6 @@
       addSessionImage: function (image, rotate) {
         console.log("add new session image:", image, rotate);
         this.$store.commit('addWaiterWait');
-        let formData = new FormData();
-        formData.append('file', image);
-        let headers = {
-          'image_upload_group': 'insert-sample-session-image',
-          'image-upload-rotation': rotate,
-          'sessionId': 'i:' + this.id,
-          'sessionId2': 'i:' + this.id,
-          'Content-Type': 'multipart/form-data'
-        };
-
-        // console.log(headers);
-        // console.log(this.imageUploadGroup);
-
-        console.log('=======', this.images.length);
 
         // this.$axios.post('/api/images/image-upload', formData, {
         this.$axios.post('/api/ajax/serve', { sessionId: this.id, image: image, rotate: rotate, orders: this.images.length + 1 },
@@ -169,11 +173,11 @@
                 // { headers: headers })
                 .then((res) => {
           this.$store.commit('subWaiterWait');
-          console.log(res.data)
-          // this.images = Object.assign(this.images, { res.data.id: res.data });
-          // this.images[res.data['id']] = res.data;
-          // this.images = JSON.parse(JSON.stringify(this.images));
-                  this.images.push(res.data)
+          console.log(res.data);
+          this.images.push(res.data);
+          this.$refs.spuRef.reset();
+          this.idx = res.data.orders - 1;
+          this.activeId = this.images[this.idx].id;
           console.log(this.images);
           // this.$store.setToFormProperty('session', 'images', res['data']['id'], res['data']);
           // this.$store.setToForm('waiter', 'wait', 0)
@@ -235,31 +239,9 @@
           this.$axios.post(this.remoteServer + '/api/ajax/serve?sessionId=' + this.id, {},
                   { headers: { 'action': 'session', 'activity': 'images' } })
             .then((response) => {
-            console.log('++++++++++++++');
-            console.log('activeId: ', this.activeId);
-            console.log(this.images);
-            console.log(response.data);
             this.images = response.data;
+            if(this.images.length > 0)
               this.activeId = this.images[this.idx].id;
-          // for (var prop in response.data) {
-          //   console.log(prop);
-          //   if (Object.prototype.hasOwnProperty.call(response.data, prop)) {
-          //     // do stuff
-          //     // console.log(prop)
-          //     if(this.activeId == 0)
-          //       this.activeId = prop;
-          //     this.images[prop.toString()] = response.data[prop];
-          //   }
-          // }
-
-          console.log(this.images)
-
-          // this.samples = response.data;
-          // response.data.forEach(a => this.sessions.push(a));
-          // this.samples.push(response.data);
-          // console.log(this.sessions);
-          // this.sessions.push(response.data);
-          // this.$store.commit('setAppInfo', response.data);
         }).catch((err) => {
             console.error(err);
             self.isLoading = false;

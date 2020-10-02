@@ -47,22 +47,6 @@
               </div>
               <p>Linkedin</p>
             </a>
-            <a class="social-link github" href="https://github.com/bironthemes" target="_blank" title="Github" aria-label="Github">
-              <div class="icon github">
-                <svg class="icon__svg">
-                  <use xlink:href="#github"></use>
-                </svg>
-              </div>
-              <p>Github</p>
-            </a>
-            <a class="social-link rss" href="/rss" target="_blank" title="RSS" aria-label="RSS">
-              <div class="icon rss">
-                <svg class="icon__svg">
-                  <use xlink:href="#rss"></use>
-                </svg>
-              </div>
-              <p>RSS</p>
-            </a>
           </div>
         </div>
         <div class="column is-4">
@@ -85,9 +69,9 @@
       </div>
       <hr>
       <div class="footer-bottom has-text-centered">
-        © 2020 <a href="https://biron.bironthemes.com">Biron</a>.
-        Published with <a href="https://ghost.org">Ghost</a>.
-        Theme by <a href="https://bironthemes.com">Biron Themes</a>.
+        © 2020 <a href="http://vavishka.piana.ir">Piana</a>.
+        Published with <a href="http://piana.ir">Piana Group</a>.
+        Theme by <a href="http://piana.ir">Piana Themes</a>.
       </div>
     </div>
   </footer>

@@ -22,7 +22,7 @@
       let appInfo = await this.$axios.post('http://localhost' + '/api/ajax/serve', {},
               { headers: { 'action': 'auth', activity: 'appInfo' } }).then((res) => {
         let appInfo = res['data'];
-        console.log(appInfo)
+        console.log('appInfo =>', appInfo)
         this.$store.commit('setAppInfo', appInfo)
         return appInfo
       })
