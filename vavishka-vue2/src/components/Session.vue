@@ -3,7 +3,7 @@
     <div class="card-image">
       <figure class="image is-4by3" style="overflow: hidden;">
         <img v-if="activeId == 0" :src="unknownURL" class="eee">
-        <img v-if="activeId != 0" :src="'/cdn' + activeImage['imageSrc']" v-bind:style="{ transform: rotateVal }">
+        <img v-if="activeId != 0" :src="'/api/resources/serve/images/' + activeImage['imageSrc']" v-bind:style="{ transform: rotateVal }">
       </figure>
       <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
         <div class="column is-full" style="height: 20%;">

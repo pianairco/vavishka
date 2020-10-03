@@ -3,7 +3,7 @@
     <div class="card-image">
       <div class="card-image">
         <figure class="image is-64x64" :style="[activeId == sessionImage['id'] ? {'background-color': 'red'} : {'background-color': '#FFF'}]">
-          <img :src="'cdn/' + sessionImage['imageSrc']"/>
+          <img :src="'api/resources/serve/images/' + sessionImage['imageSrc']"/>
         </figure>
       </div>
       <div class="columns is-overlay is-vcentered is-multiline is-mobile" style="margin: 0px;">

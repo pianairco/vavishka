@@ -1,4 +1,7 @@
 ###
+GET http://localhost:8088/api/resources/serve/images/1.png
+
+###
 POST http://localhost:8088/api/ajax/serve
 action: auth
 activity: appInfo

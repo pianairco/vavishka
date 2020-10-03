@@ -6,8 +6,8 @@ import java.util.Map;
 
 //@Profile({ "production"})
 @ConfigurationProperties(prefix = "app.service")
-public class ActionProperties {
-
+public class ServiceProperties {
+    Map<String, Activity> resources;
     Map<String, Map<String, Activity>> actions;
 //    List<Activity> actions;
 
@@ -19,21 +19,13 @@ public class ActionProperties {
         this.actions = actions;
     }
 
+    public Map<String, Activity> getResources() {
+        return resources;
+    }
 
-    //    public static class Actions {
-//        private List<Action> actions;
-//
-//        public Actions() {
-//        }
-//
-//        public List<Action> getActions() {
-//            return actions;
-//        }
-//
-//        public void setActions(List<Action> actions) {
-//            this.actions = actions;
-//        }
-//    }
+    public void setResources(Map<String, Activity> resources) {
+        this.resources = resources;
+    }
 
     public static class Activity {
         private String function;

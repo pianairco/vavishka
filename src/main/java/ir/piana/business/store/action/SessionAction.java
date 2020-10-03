@@ -3,6 +3,7 @@ package ir.piana.business.store.action;
 import ir.piana.business.store.service.sql.SqlService;
 import ir.piana.dev.uploadrest.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.function.BiFunction;
 @Service("sample-session")
 public class SessionAction {
     @Autowired
+    @Qualifier("databaseStorageService")
     private StorageService storageService;
 
     @Autowired

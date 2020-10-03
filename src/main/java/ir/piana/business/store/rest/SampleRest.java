@@ -17,6 +17,7 @@ import java.util.*;
 @RequestMapping("/api")
 public class SampleRest {
     @Autowired
+    @Qualifier("databaseStorageService")
     private StorageService storageService;
 
     @Autowired

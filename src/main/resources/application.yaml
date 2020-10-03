@@ -15,8 +15,8 @@ spring:
       max-file-size: 2048KB
       max-request-size: 2048KB
   datasource:
-    url: jdbc:h2:file:./data/vavishka
-    #    url: jdbc:h2:mem:testdb
+#    url: jdbc:h2:file:./data/vavishka
+        url: jdbc:h2:mem:vavishka
     driverClassName: org.h2.Driver
     username: sa
     password: password
@@ -38,6 +38,21 @@ app:
   mode:
     debug: true
   service:
+    resources:
+      images:
+        sql:
+          type: select
+          query: select image_type, image_data from images where image_src = ?
+          resultType: object
+          params: 1=~
+          result: '#content-type=image_type,$body=image_data'
+      images2:
+        sql:
+          type: select
+          query: select image_type, image_data from images where image_src = ?
+          resultType: binary
+          params: 1=~
+          result: '#content-type=image_type,$body=image_data'
     actions:
       session:
         detail:
@@ -83,7 +98,6 @@ app:
             params: 1=sampleId
       sample:
         samples:
-          function:
           sql:
             type: select
             query: select id, title, description, image_src from samples

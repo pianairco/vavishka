@@ -56,3 +56,10 @@ CREATE TABLE IF NOT EXISTS samples_session_image (
     image_src varchar(256),
     CONSTRAINT FK_SESSION_IMAGE_TO_SAMPLES_SESSION FOREIGN KEY ( samples_session_id ) REFERENCES samples_session( id )
 );
+
+CREATE TABLE IF NOT EXISTS images (
+    id bigint default vavishka_seq.nextval primary key,
+    image_src char(70),
+    image_type char(10),
+    image_data binary(100000)
+);

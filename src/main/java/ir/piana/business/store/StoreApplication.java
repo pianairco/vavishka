@@ -4,14 +4,13 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
-import ir.piana.dev.sqlrest.ActionProperties;
 import ir.piana.business.store.cfg.StaticResourceProperties;
-import ir.piana.business.store.rest.ImageLoaderProperties;
 import ir.piana.business.store.service.sql.SqlProperties;
-import ir.piana.dev.uploadrest.StorageProperties;
 import ir.piana.business.store.service.store.StoreMenuProperties;
 import ir.piana.business.store.util.LowerCaseKeyDeserializer;
 import ir.piana.business.store.util.LowerCaseKeySerializer;
+import ir.piana.dev.sqlrest.ServiceProperties;
+import ir.piana.dev.uploadrest.StorageProperties;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,10 +26,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableCaching
 @EnableConfigurationProperties({
-		ActionProperties.class,
+		ServiceProperties.class,
 		StorageProperties.class,
 		SqlProperties.class,
-		ImageLoaderProperties.class,
 		StaticResourceProperties.class,
 		StoreMenuProperties.class
 })

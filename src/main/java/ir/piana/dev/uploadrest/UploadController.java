@@ -1,10 +1,10 @@
 package ir.piana.dev.uploadrest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.piana.dev.sqlrest.ActionProperties;
 import ir.piana.dev.sqlrest.SqlQueryService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -35,6 +34,7 @@ public class UploadController {
     private SqlQueryService sqlService;
 
     @Autowired
+    @Qualifier("databaseStorageService")
     private StorageService storageService;
 
     @Autowired

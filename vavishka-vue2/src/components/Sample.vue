@@ -16,7 +16,7 @@
               v-if="session['id'] != editedId"
               :active-id="activeId"
               :id="session['id']"
-              :image="'/cdn' + session['iconSrc']"
+              :image="'/api/resources/serve/images/' + session['iconSrc']"
               :description="session['description']"
               :title="session['title']"></pictorial-menu-item>
           </li>
@@ -172,7 +172,10 @@
             // this.samples = response.data;
             response.data.forEach(a => this.sessions.push(a));
             console.log('33333333333');
-            this.$router.push({ path: '/sample/' + this.sampleId + '/session/' + this.sessions[0].id })
+            console.log(this.$router.history.current.path)
+        let newPath = '/sample/' + this.sampleId + '/session/' + this.sessions[0].id;
+        if(this.$router.history.current.path !== newPath)
+        this.$router.push({ path: newPath })
             console.log('44444444444');
             // this.samples.push(response.data);
             console.log(this.sessions);

@@ -2,6 +2,7 @@ package ir.piana.dev.uploadrest;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -13,11 +14,17 @@ public interface StorageService {
 
     String store(MultipartFile file, String group);
 
-    String store(MultipartFile file, String group, String rotation);
+    default String store(MultipartFile file, String group, String rotation) {
+        throw new NotImplementedException();
+    }
 
-    String store(MultipartFile file, String group, String rotation, Integer width, Integer height);
+    default String store(MultipartFile file, String group, String rotation, Integer width, Integer height) {
+        throw new NotImplementedException();
+    }
 
-    String store(String file, String group, int rotation);
+    default String store(String file, String group, int rotation) {
+        throw new NotImplementedException();
+    }
 
     Stream<Path> loadAll();
 

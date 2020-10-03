@@ -3,7 +3,7 @@ package ir.piana.business.store.action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.business.store.data.entity.GoogleUserEntity;
-import ir.piana.dev.sqlrest.ActionProperties;
+import ir.piana.dev.sqlrest.ServiceProperties;
 import ir.piana.dev.sqlrest.AjaxController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +23,7 @@ public class AuthAction extends AjaxController.Action {
     private ObjectMapper mapper;
 
     @Autowired
-    private ActionProperties actionProperties;
+    private ServiceProperties serviceProperties;
 
     public BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> appInfo = (request, body) -> {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

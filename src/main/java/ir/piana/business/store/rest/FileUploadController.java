@@ -4,6 +4,7 @@ import com.google.api.client.util.Maps;
 import ir.piana.business.store.model.ResponseModel;
 import ir.piana.dev.uploadrest.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,13 +24,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-@Controller
-@RequestMapping("api/images")
+//@Controller
+//@RequestMapping("api/images")
 public class FileUploadController {
     @Autowired
     private ApplicationContext applicationContext;
 
     @Autowired
+    @Qualifier("databaseStorageService")
     private StorageService storageService;
 
     @GetMapping("/")

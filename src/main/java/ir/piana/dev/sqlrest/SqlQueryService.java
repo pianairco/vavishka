@@ -1,6 +1,5 @@
 package ir.piana.dev.sqlrest;
 
-import ir.piana.business.store.service.sql.SqlProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,7 +13,7 @@ public class SqlQueryService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public <T> T execute(ActionProperties.SQL sql, Object[] params) {
+    public <T> T execute(ServiceProperties.SQL sql, Object[] params) {
         if (sql.getType().equalsIgnoreCase("select")) {
             if (sql.getResultType().equalsIgnoreCase("object")) {
                 return (T) select(sql.getQuery(), params);
