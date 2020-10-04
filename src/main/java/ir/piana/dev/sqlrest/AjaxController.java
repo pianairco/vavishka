@@ -138,7 +138,8 @@ public class AjaxController {
         String activityHeader = (String) request.getHeader("activity");
 
         if(serviceProperties.getActions().containsKey(actionHeader) && serviceProperties.getActions().get(actionHeader).containsKey(activityHeader)) {
-            ServiceProperties.Activity activity = serviceProperties.getActions().get(actionHeader).get(activityHeader);
+            List<ServiceProperties.Activity> activities = serviceProperties.getActions().get(actionHeader).get(activityHeader);
+            for(ServiceProperties.Activity activity : activities)
             if (activity.getFunction() != null && !activity.getFunction().isEmpty()) {
                 try {
                     Action bean = (Action) applicationContext.getBean(actionHeader);

@@ -1,4 +1,7 @@
 server:
+  profiles:
+    include:
+      - sample
   port: 8088
   servlet:
     encoding:
@@ -56,75 +59,94 @@ app:
     actions:
       session:
         detail:
-          sql:
-            type: select
-            query: select detail from samples_session where id = ?
-            resultType: object
-            params: 1=*sessionId
+          - sql:
+              type: select
+              query: select detail from samples_session where id = ?
+              resultType: object
+              params: 1=*sessionId
         updateSessionDetail:
-          sql:
-            type: update
-            query: update samples_session set detail = ? where id = ?
-            resultType: object
-            params: 1=detail,2=sessionId
-            result: detail=detail
+          - sql:
+              type: update
+              query: update samples_session set detail = ? where id = ?
+              resultType: object
+              params: 1=detail,2=sessionId
+              result: detail=detail
         images:
-          sql:
-            type: select
-            query: select id, image_src, orders from samples_session_image where samples_session_id = ?
-            resultType: list
-            params: 1=*sessionId
+          - sql:
+              type: select
+              query: select id, image_src, orders from samples_session_image where samples_session_id = ?
+              resultType: list
+              params: 1=*sessionId
         addSession1:
-          function: addSession
+          - function: addSession
         addSession:
-          sql:
-            type: insert
-            query: insert into samples_session (id, samples_id, title, description, icon_src, orders) values(?, ?, ?, ?, ?, ?)
-            resultType: object
-            params: 1=!id:vavishka_seq,2=sampleId,3=title,4=description,5=@imageSrc:icon.base64&icon.rotate&#group,6=orders
-            result: id=@id,title=title,description=description,iconSrc=@imageSrc
+          - sql:
+              type: insert
+              query: insert into samples_session (id, samples_id, title, description, icon_src, orders) values(?, ?, ?, ?, ?, ?)
+              resultType: object
+              params: 1=!id:vavishka_seq,2=sampleId,3=title,4=description,5=@imageSrc:icon.base64&icon.rotate&#group,6=orders
+              result: id=@id,title=title,description=description,iconSrc=@imageSrc
         addSessionImage:
-          sql:
-            type: insert
-            query: insert into samples_session_image (id, samples_session_id, image_src, orders) values(?, ?, ?, ?)
-            resultType: object
-            params: 1=!id:vavishka_seq,2=sessionId,3=@imageSrc:image&rotate&#group,4=orders
-            result: id=@id,imageSrc=@imageSrc,orders=orders
+          - sql:
+              type: insert
+              query: insert into samples_session_image (id, samples_session_id, image_src, orders) values(?, ?, ?, ?)
+              resultType: object
+              params: 1=!id:vavishka_seq,2=sessionId,3=@imageSrc:image&rotate&#group,4=orders
+              result: id=@id,imageSrc=@imageSrc,orders=orders
         sessions:
-          sql:
-            type: select
-            query: select id, title, description, icon_src, orders from samples_session where samples_id = ?
-            resultType: list
-            params: 1=sampleId
+          - sql:
+              type: select
+              query: select id, title, description, icon_src, orders from samples_session where samples_id = ?
+              resultType: list
+              params: 1=sampleId
       sample:
         samples:
-          sql:
-            type: select
-            query: select id, title, description, image_src from samples
-            resultType: list
+          - sql:
+              type: select
+              query: select id, title, description, image_src from samples
+              resultType: list
         sample:
-          sql:
-            type: select
-            query: select id, title, description, image_src from samples where title=? and description like ?
-            resultType: object
-            params: 1=title,2=%description%
+          - sql:
+              type: select
+              query: select id, title, description, image_src from samples where title=? and description like ?
+              resultType: object
+              params: 1=title,2=%description%
         sampleById:
-          sql:
-            type: select
-            query: select id, title, description, image_src from samples where id = ?
-            resultType: object
-            params: 1=id
+          - sql:
+              type: select
+              query: select id, title, description, image_src from samples where id = ?
+              resultType: object
+              params: 1=id
         addSample:
-          sql:
-            type: insert
-            query: insert into samples (id, title, description, image_src) values(?, ?, ?, ?)
-            resultType: object
-            sequenceName: vavishka_seq
-            params: 1=!id:vavishka_seq,2=title,3=description,4=@imageSrc:image.base64&image.rotate&#group
-            result: id=@id,title=title,description=description,imageSrc=@imageSrc
+          - sql:
+              type: insert
+              query: insert into samples (id, title, description, image_src) values(?, ?, ?, ?)
+              resultType: object
+              sequenceName: vavishka_seq
+              params: 1=!id:vavishka_seq,2=title,3=description,4=@imageSrc:image.base64&image.rotate&#group
+              result: id=@id,title=title,description=description,imageSrc=@imageSrc
+        deleteSample:
+          - sql:
+              type: delete
+              query: delete from samples_session_image s where s.id in (select id from samples_session where samples_id = ?)
+              resultType: object
+              params: 1=sampleId
+              result: id=sampleId
+          - sql:
+              type: delete
+              query: delete from samples_session where samples_id = ?
+              resultType: object
+              params: 1=sampleId
+              result: id=sampleId
+          - sql:
+              type: delete
+              query: delete from samples where id = ?
+              resultType: object
+              params: 1=sampleId
+              result: id=sampleId
       auth:
         appInfo:
-          function: appInfo
+          - function: appInfo
 static-resource:
   paths:
     '[/**]':

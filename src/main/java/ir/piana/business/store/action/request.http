@@ -1,3 +1,11 @@
+POST http://localhost:8088/api/ajax/serve
+action: sample
+activity: deleteSample
+content-type: application/json
+
+{
+  "sampleId": 101
+}
 ###
 GET http://localhost:8088/api/resources/serve/images/1.png
 

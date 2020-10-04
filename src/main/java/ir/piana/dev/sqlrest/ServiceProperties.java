@@ -2,20 +2,21 @@ package ir.piana.dev.sqlrest;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
 import java.util.Map;
 
 //@Profile({ "production"})
 @ConfigurationProperties(prefix = "app.service")
 public class ServiceProperties {
     Map<String, Activity> resources;
-    Map<String, Map<String, Activity>> actions;
+    Map<String, Map<String, List<Activity>>> actions;
 //    List<Activity> actions;
 
-    public Map<String, Map<String, Activity>> getActions() {
+    public Map<String, Map<String, List<Activity>>> getActions() {
         return actions;
     }
 
-    public void setActions(Map<String, Map<String, Activity>> actions) {
+    public void setActions(Map<String, Map<String, List<Activity>>> actions) {
         this.actions = actions;
     }
 
