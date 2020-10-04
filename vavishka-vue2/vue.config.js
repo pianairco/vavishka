@@ -1,5 +1,6 @@
 // vue.config.js
 module.exports = {
+    outputDir: '../src/main/resources/public',
     runtimeCompiler: true,
     chainWebpack: config => {
         config.module.rules.delete('eslint');

@@ -10,7 +10,7 @@
           <div v-if="activeId" class="columns" style="padding: 0px; margin: 0px;">
             <input type="file" id="file" ref="file" @change="handleFileUpload($event)"
                    class="is-white fa fa-angle-right" style="display: none" />
-            <div class="column" style="padding: 0px; margin: 0px;">
+            <div v-if="appInfo && appInfo.isAdmin" class="column" style="padding: 0px; margin: 0px;">
               <span><i class="fa fa-image sample-item-overlay-button" v-on:click="selectImage" aria-hidden="true"></i></span>
               <span><i class="fa fa-trash sample-item-overlay-button" v-on:click="deleteClick" aria-hidden="true"></i></span>
               <span><i class="fa fa-share sample-item-overlay-button" v-on:click="rotateRightClick" aria-hidden="true"></i></span>
@@ -37,7 +37,9 @@
     </div>
     <div class="card-content">
       <div class="columns is-mobile is-multiline" style="margin: 0px;">
-        <session-picture-upload ref="spuRef" v-on:add-session-image="addSessionImage"></session-picture-upload>
+        <session-picture-upload ref="spuRef"
+                                v-if="appInfo && appInfo.isAdmin"
+                                v-on:add-session-image="addSessionImage"></session-picture-upload>
         <session-picture-select
           v-for="image in images"
           :session-image="image"
@@ -293,6 +295,7 @@
   .sample-item-overlay-button {
     color: #c69500;
     cursor: pointer;
+    padding: 4px;
   }
   .sample-item-overlay-button:hover {
     background-color: #c2e0f5;

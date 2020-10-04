@@ -4,7 +4,9 @@
     <spinner></spinner>
     <div class="columns is-mobile is-multiline">
       <div class="column is-full-mobile is-one-quarter-desktop">
-        <pictorial-menu-item-creator :sampleId="sampleId" v-on:add-item="addSession" :form-name="'uploader1'" :icon-property-name="'icon'">
+        <pictorial-menu-item-creator
+                v-if="appInfo && appInfo.isAdmin"
+                :sampleId="sampleId" v-on:add-item="addSession" :form-name="'uploader1'" :icon-property-name="'icon'">
         </pictorial-menu-item-creator>
         <aside class="menu">
           <!--style=" overflow-y: auto; display: flex; flex-direction: column; max-height: 800px;"-->
@@ -146,6 +148,14 @@
           console.log('FAILURE!!');
           console.log(e);
         });
+      }
+    },
+    computed: {
+      appInfo () {
+        console.log(this.$store.state.appInfo);
+        if(this.$store.state.appInfo)
+          console.log('pictureUrl', this.$store.state.appInfo.pictureUrl)
+        return this.$store.state.appInfo
       }
     },
     mounted: function () {

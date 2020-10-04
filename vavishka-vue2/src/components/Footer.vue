@@ -3,17 +3,17 @@
     <div class="container">
       <div class="columns">
         <div class="column is-4">
-          <p class="footer-link-title has-text-weight-bold">Navigation</p>
+          <p class="footer-link-title has-text-weight-bold">واویشکا</p>
           <!-- Loop through the navigation items -->
-          <a class="navbar-item nav-home is-active" href="https://biron.bironthemes.com/">Home</a>
-          <a class="navbar-item nav-style-guide" href="https://biron.bironthemes.com/style-guide/">Style Guide</a>
-          <a class="navbar-item nav-features" href="https://biron.bironthemes.com/features/">Features</a>
-          <a class="navbar-item nav-tech" href="https://biron.bironthemes.com/tag/technology/">#Tech</a>
-          <a class="navbar-item nav-web" href="https://biron.bironthemes.com/tag/web/">#Web</a>
+          <a class="navbar-item nav-home is-active" href="https://biron.bironthemes.com/">درباره واویشکا</a>
+          <a class="navbar-item nav-style-guide" href="https://biron.bironthemes.com/style-guide/">قوانین و مقررات</a>
+          <a class="navbar-item nav-features" href="https://biron.bironthemes.com/features/">حریم خصوصی</a>
+          <a class="navbar-item nav-tech" href="https://biron.bironthemes.com/tag/technology/">تماس با ما</a>
+          <a class="navbar-item nav-web" href="https://biron.bironthemes.com/tag/web/">راهنمای خرید</a>
 
         </div>
         <div class="column is-4">
-          <p class="footer-link-title has-text-weight-bold">Follow Us</p>
+          <p class="footer-link-title has-text-weight-bold">واویشکا در شبکه های اجتماعی</p>
           <div class="social-media">
             <a class="social-link facebook" href="https://www.facebook.com/bironthemes" target="_blank" title="Facebook" aria-label="Facebook">
               <div class="icon facebook">
@@ -21,7 +21,9 @@
                   <use xlink:href="#facebook"></use>
                 </svg>
               </div>
-              <p>Facebook</p>
+              <p>
+                <i class="fab fa-facebook"></i>
+                فیسبوک</p>
             </a>
             <a class="social-link twitter" href="https://twitter.com/bironthemes" target="_blank" title="Twitter" aria-label="Twitter">
               <div class="icon twitter">
@@ -29,7 +31,9 @@
                   <use xlink:href="#twitter"></use>
                 </svg>
               </div>
-              <p>Twitter</p>
+              <p>
+                <i class="fab fa-twitter"></i>
+              توییتر</p>
             </a>
             <a class="social-link instagram" href="https://instagram.com/bironthemes" target="_blank" title="Instagram" aria-label="Instagram">
               <div class="icon instagram">
@@ -37,7 +41,9 @@
                   <use xlink:href="#instagram"></use>
                 </svg>
               </div>
-              <p>Instagram</p>
+              <p>
+                <i class="fab fa-instagram"></i>
+              اینستاگرام</p>
             </a>
             <a class="social-link linkedin" href="https://linkedin.com" target="_blank" title="Linkedin" aria-label="Linkedin">
               <div class="icon linkedin">
@@ -45,33 +51,29 @@
                   <use xlink:href="#linkedin"></use>
                 </svg>
               </div>
-              <p>Linkedin</p>
+              <p>
+                <i class="fab fa-linkedin"></i>
+              لینکداین</p>
             </a>
           </div>
         </div>
         <div class="column is-4">
-          <p class="footer-link-title has-text-weight-bold">Subscribe</p>
-          <p class="footer-text">Get the latest posts delivered right to your inbox</p>
+          <p class="footer-link-title has-text-weight-bold">اشتراک خبرنامه</p>
+          <p class="footer-text">جهت اطلاع از آخرین آموزش ها آدرس ایمیل خود را وارد کنید و در خبرنامه مشترک شوید</p>
           <form method="post" action="/subscribe/" class="">
             <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location" value="https://biron.bironthemes.com/"><input class="referrer" type="hidden" name="referrer" value="">
 
             <div class="form-group">
-              <input class="input is-rounded" type="email" name="email" placeholder="Your email address">
+              <input class="input is-rounded" type="email" name="email" placeholder="ایمیل خود را وارد کنید">
             </div>
-            <button class="button is-primary is-rounded has-text-weight-bold" type="submit"><span>Subscribe</span></button>
-
-
-
+            <button class="button is-primary is-rounded has-text-weight-bold" type="submit"><span>مشترک شوید</span></button>
           </form>
-
 
         </div>
       </div>
       <hr>
       <div class="footer-bottom has-text-centered">
-        © 2020 <a href="http://vavishka.piana.ir">Piana</a>.
-        Published with <a href="http://piana.ir">Piana Group</a>.
-        Theme by <a href="http://piana.ir">Piana Themes</a>.
+        کلیه حقوق این وب سایت متعلق به گروه <a href="http://vavishka.piana.ir">Piana</a> است.
       </div>
     </div>
   </footer>

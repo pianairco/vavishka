@@ -13,7 +13,7 @@
       <router-link to="/home" class="navbar-item">صفحه اصلی</router-link>
       <router-link to="/samples" class="navbar-item">آموزش ها</router-link>
       <router-link to="/shop" class="navbar-item">فروشگاه</router-link>
-      <router-link to="/gallery" class="navbar-item">گالری تصاویر</router-link>
+<!--      <router-link to="/gallery" class="navbar-item">گالری تصاویر</router-link>-->
 <!--      <b-navbar-dropdown label="Info">-->
 <!--        <b-navbar-item href="#">-->
 <!--          About-->
@@ -27,12 +27,20 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons">
-          <b-button size="" class="is-success" icon-pack="fab"
+<!--          <b-button size="" class="is-success" icon-pack="fab"
                     v-on:click="handleClickSignIn"
                     v-if="!appInfo || !appInfo.isLoggedIn"
                     icon-left="google">
             Sign in with Google
-          </b-button>
+          </b-button>-->
+
+          <button v-if="!appInfo || !appInfo.isLoggedIn" class="button is-danger is-outlined" v-on:click="handleClickSignIn">
+            <span>ورود با گوگل</span>
+<!--            <span>Sign in with Google</span>-->
+            <span class="icon is-small">
+              <i class="fab fa-google"></i>
+            </span>
+          </button>
 
           <button v-if="appInfo && appInfo.isLoggedIn" class="button is-danger is-outlined" v-on:click="handleClickSignOut">
             <span style="padding-left: 4px;">

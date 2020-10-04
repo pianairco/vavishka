@@ -11,8 +11,9 @@
                                :link="'/sample/' + d['id']"
                                v-on:edit-item="editItemClick"
                                v-on:delete-item="deleteItemClick"
+                               :is-admin="appInfo && appInfo.isAdmin"
                                :id="d['id']"
-                               :image="d['imageSrc']"
+                               :image="'api/resources/serve/images/' + d['imageSrc']"
                                :description="d['description']"
                                :title="d['title']"></pictorial-sample-item>
         <pictorial-sample-item-creator v-if="d['id'] == editedId"

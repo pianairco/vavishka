@@ -15,8 +15,8 @@ spring:
       max-file-size: 2048KB
       max-request-size: 2048KB
   datasource:
-#    url: jdbc:h2:file:./data/vavishka
-        url: jdbc:h2:mem:vavishka
+    url: jdbc:h2:file:./data/vavishka
+#        url: jdbc:h2:mem:vavishka
     driverClassName: org.h2.Driver
     username: sa
     password: password
