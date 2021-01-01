@@ -63,3 +63,17 @@ CREATE TABLE IF NOT EXISTS images (
     image_type char(10),
     image_data binary(100000)
 );
+
+CREATE TABLE IF NOT EXISTS part_data (
+    id bigint default vavishka_seq.nextval primary key,
+    part_param char(64) not null ,
+    part_title varchar(256),
+    part_text text,
+    part_image binary(100000)
+);
+
+INSERT INTO part_data (id, part_param) values
+(vavishka_seq.nextval, 'home_main_content'),
+(vavishka_seq.nextval, 'home_slide_a'),
+(vavishka_seq.nextval, 'home_slide_b'),
+(vavishka_seq.nextval, 'home_slide_c');

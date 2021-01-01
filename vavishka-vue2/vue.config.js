@@ -9,7 +9,7 @@ module.exports = {
         port: 80,
         proxy: {
             '/api': {
-                target: 'http://localhost:8088',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
@@ -17,7 +17,7 @@ module.exports = {
                 }
             },
             '/cdn': {
-                target: 'http://localhost:8088',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {

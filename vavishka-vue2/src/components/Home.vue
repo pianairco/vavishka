@@ -1,10 +1,18 @@
 <template lang="html">
   <section class="section" id="bulma-home-page">
     <div class="container has-text-centered">
-      <h2 class="title">The Band</h2>
-      <p>We have created a fictional band website. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h2 class="title">واویشکا چیست</h2>
+      <vue-editor  v-model="content" :editorToolbar="customToolbar"></vue-editor>
+      <div v-html="content"></div>
+      <p>از معروف ترین خوراکی های گیلانی واویشکا است که بسیار خوشمزه می باشد و شما می توانید این خوراک اصیل گیلانی را در خانه تهیه کنید و از طعم و مزه بی نظیر این غذا نهایت لذت را ببرید. واویشکا چند روش پخت مختلف دارد که در این مطلب شما را با بهترین دستور پخت واویشکا آشنا خواهیم کرد.</p>
+
+      <button @click="isImageModalActive = true" class="button is-primary is-medium">modal</button>
+      <b-modal v-model="isImageModalActive">
+        <pictorial-sample-item-creator
+                                       :edited-item="d"
+                                       :form-name="'uploader1'"
+                                       :property-name="'image'"></pictorial-sample-item-creator>
+      </b-modal>
 
       <div class="columns is-centered" style="padding: 2rem">
         <div class="column">
@@ -87,6 +95,9 @@
 
 <script lang="js">
 
+  import { VueEditor } from "vue2-editor";
+  import PictorialSampleItemCreator from './modules/sample/PictorialSampleItemCreator';
+
   export default  {
     name: 'Home',
     props: [],
@@ -95,7 +106,9 @@
     },
     data () {
       return {
-
+        isImageModalActive: false,
+        content: '',
+        customToolbar: [[{ 'align': ''}, { 'align': 'right' }], ['link'], [{ 'direction': 'rtl' }]]
       }
     },
     methods: {
@@ -103,6 +116,10 @@
     },
     computed: {
 
+    },
+    components: {
+      VueEditor,
+      PictorialSampleItemCreator
     }
 }
 
@@ -112,5 +129,9 @@
 <style scoped lang="css">
   .home {
 
+  }
+
+  #editor1 {
+    height: 350px;
   }
 </style>
